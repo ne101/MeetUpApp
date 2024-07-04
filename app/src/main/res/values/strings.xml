@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">wb_homework</string>
+    <string name="date_and_city">%s - %s</string>
+    <string name="meet">Встречи</string>
+    <string name="Community">Сообщества</string>
+    <string name="more">Еще</string>
+    <string name="profile">Профиль</string>
+    <string name="my_meets">Мои встречи</string>
+
+</resources>
