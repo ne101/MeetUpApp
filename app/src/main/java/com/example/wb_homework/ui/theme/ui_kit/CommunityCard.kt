@@ -26,6 +26,7 @@ import com.example.wb_homework.domain.Community
 fun CommunityCard(
     modifier: Modifier = Modifier,
     community: Community,
+    onClickCommunityCardListener: () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -37,15 +38,9 @@ fun CommunityCard(
             disabledContainerColor = Color.White
         )
     ) {
-        Column(modifier = Modifier.clickable {  }) {
+        Column(modifier = Modifier.clickable { onClickCommunityCardListener() }) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Image(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(start = 4.dp, top = 4.dp),
-                    painter = painterResource(id = community.avatarCommunityId),
-                    contentDescription = ""
-                )
+                AvatarForCard(community.avatarCommunityId)
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Spacer(modifier = Modifier.height(4.dp))

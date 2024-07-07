@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">wb_homework</string>
     <string name="date_and_city">%s - %s</string>
+    <string name="date_and_city_and_street">%s - %s, %s</string>
     <string name="meet">Встречи</string>
     <string name="Community">Сообщества</string>
     <string name="more">Еще</string>

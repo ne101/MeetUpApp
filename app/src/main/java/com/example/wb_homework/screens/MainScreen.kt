@@ -1,20 +1,18 @@
 package com.example.wb_homework.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,25 +21,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.wb_homework.HomeWork2
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Profile
 import com.example.wb_homework.more_screen_states.MoreScreenState
 import com.example.wb_homework.navigation.AppNavGraph
+import com.example.wb_homework.navigation.Screen
 import com.example.wb_homework.navigation.rememberNavigationState
 import com.example.wb_homework.ui.theme.NavigationItem
 import com.example.wb_homework.ui.theme.TextColor
 import com.example.wb_homework.ui.theme.ui_kit.BodyText1
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-
-    val moreScreenState: MutableState<MoreScreenState> =  remember {
-        mutableStateOf(MoreScreenState.Initial)
-    }
 
     Scaffold(
         containerColor = Color.White,
@@ -55,14 +50,20 @@ fun MainScreen() {
                     NavigationItem.More
                 )
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-                val currentRout = navBackStackEntry?.destination?.route
                 items.forEach { item ->
+                    val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                        it.route == item.screen.route
+                    } ?: false
                     NavigationBarItem(
-                        selected = currentRout == item.screen.route,
-                        onClick = { navigationState.navigateTo(item.screen.route) },
+                        selected = selected,
+                        onClick = {
+                            if (!selected) {
+                                navigationState.navigateTo(item.screen.route)
+                            }
+                        },
                         label = { },
                         icon = {
-                            if (currentRout != item.screen.route) {
+                            if (!selected) {
                                 Icon(
                                     painter = painterResource(id = item.image),
                                     contentDescription = "",
@@ -96,32 +97,98 @@ fun MainScreen() {
                 }
             }
         }
-    ) { padding ->
+    ) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            meetScreenContent = {
-                AllMeetsScreen(onBackPressed = {})
+            eventsScreenContent = {
+                AllEventsScreen(
+                    onAddPressed = {},
+                    onEventCardClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.DetailEventFromEventScreen.route
+                        )
+                    }
+                )
+            },
+            detailEventFromEventScreenContent = {
+                EventDetailsScreen(
+                    onBackPressedClickListener = {
+                        navigationState.navHostController.popBackStack()
+                    }
+                )
+            },
+
+            detailEventFromCommunityScreenContent = {
+                EventDetailsScreen(
+                    onBackPressedClickListener = {
+                        navigationState.navHostController.popBackStack()
+                    }
+                )
+            },
+
+            detailEventFromMoreScreenContent = {
+                EventDetailsScreen(
+                    onBackPressedClickListener = {
+                        navigationState.navHostController.popBackStack()
+                    }
+                )
+            },
+
+            detailCommunityScreenContent = {
+                CommunityDetailsScreen(
+                    onBackPressedClickListener = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onEventCardClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.DetailEventFromCommunityScreen.route
+                        )
+                    }
+                )
             },
             communityScreenContent = {
-                HomeWork2(modifier = Modifier.padding(padding))
+                CommunityScreen(
+                    onClickCommunityCardListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.DetailCommunity.route
+                        )
+                    }
+                )
             },
             moreScreenContent = {
-                when (moreScreenState.value) {
-                    MoreScreenState.Initial -> {
-                        MoreScreen(onProfileClickListener = {
-                            moreScreenState.value = MoreScreenState.Profile
-                        }, onMyMeetsClickListener = {
-                            moreScreenState.value = MoreScreenState.Meets
-                        })
+                MoreScreen(
+                    onProfileClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.Profile.route
+                        )
+                    },
+                    onMyMeetsClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.MyEvents.route
+                        )
                     }
-                    MoreScreenState.Profile -> {
-                        ProfileScreen(onBackPressed = { moreScreenState.value = MoreScreenState.Initial})
+                )
+            },
+            profileEventScreenContent = {
+                ProfileScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
                     }
-                    else -> {
-                        MyMeetsScreen(onBackPressed = {moreScreenState.value = MoreScreenState.Initial})
-                    }
-                }
+                )
+            },
+            myEventsScreenContent = {
+                MyEventsScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onEventCardClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.DetailEventFromMoreScreen.route
+                        )
+                    },
 
-            })
+                    )
+            }
+        )
     }
 }

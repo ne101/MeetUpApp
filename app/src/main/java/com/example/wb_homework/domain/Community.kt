@@ -6,4 +6,5 @@ data class Community(
     val communityName: String = "Designa",
     val countSubscribers: String = "10000 человек",
     val avatarCommunityId: Int = R.drawable.avatar_community,
+    val id: Int = 0
 )

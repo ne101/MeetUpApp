@@ -28,12 +28,17 @@ fun AvatarBase(image: Int = R.drawable.avatar) {
 }
 
 @Composable
-fun AvatarMeet(image: Int = R.drawable.meet) {
-    Image(
-        modifier = Modifier
-            .size(48.dp)
-            .padding(start = 4.dp, top = 4.dp),
-        painter = painterResource(id = R.drawable.meet),
-        contentDescription = "",
-    )
+fun AvatarForCard(image: Int = R.drawable.meet) {
+    Box(
+        modifier = Modifier.size(56.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            modifier = Modifier
+                .size(48.dp),
+            painter = painterResource(id = image),
+            contentDescription = "",
+        )
+    }
+
 }
