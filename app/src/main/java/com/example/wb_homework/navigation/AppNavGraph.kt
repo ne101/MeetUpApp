@@ -3,30 +3,41 @@ package com.example.wb_homework.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    meetScreenContent: @Composable () -> Unit,
+    eventsScreenContent: @Composable () -> Unit,
+    detailEventFromCommunityScreenContent: @Composable () -> Unit,
+    detailEventFromEventScreenContent: @Composable () -> Unit,
     communityScreenContent: @Composable () -> Unit,
+    detailCommunityScreenContent: @Composable () -> Unit,
     moreScreenContent: @Composable () -> Unit,
+    myEventsScreenContent: @Composable () -> Unit,
+    profileEventScreenContent: @Composable () -> Unit,
+    detailEventFromMoreScreenContent: @Composable () -> Unit
+
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.ROUTE_MEET
+        startDestination = Screen.EventScreen.route
     ) {
-        composable(Screen.ROUTE_MEET) {
-            meetScreenContent()
-        }
+        eventScreenNavGraph(
+            eventsScreenContent = eventsScreenContent,
+            detailEventFromEventScreenContent = detailEventFromEventScreenContent
+        )
 
-        composable(Screen.ROUTE_COMMUNITY) {
-            communityScreenContent()
-        }
+        communityScreenNavGraph(
+            communityScreenContent = communityScreenContent,
+            detailCommunityScreenContent = detailCommunityScreenContent,
+            detailEventFromCommunityScreenContent = detailEventFromCommunityScreenContent
+        )
 
-        composable(Screen.ROUTE_MORE) {
-            moreScreenContent()
-        }
-
+        moreScreenNavGraph(
+            moreScreenContent = moreScreenContent,
+            profileEventScreenContent = profileEventScreenContent,
+            myEventsScreenContent = myEventsScreenContent,
+            detailEventFromMoreScreenContent = detailEventFromMoreScreenContent
+        )
     }
 }

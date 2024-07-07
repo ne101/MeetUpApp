@@ -1,6 +1,5 @@
 package com.example.wb_homework.ui.theme
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.wb_homework.R
 import com.example.wb_homework.navigation.Screen
 
@@ -10,21 +9,21 @@ sealed class NavigationItem(
     val image: Int
 ) {
    data object Meet : NavigationItem(
-        screen = Screen.Meet,
+        screen = Screen.EventScreen,
         titleResId = R.string.meet,
         image = R.drawable.meet_icon
 
     )
 
     data object Community : NavigationItem(
-        screen = Screen.Community,
+        screen = Screen.CommunityScreen,
         titleResId = R.string.Community,
         image = R.drawable.community_icon
 
     )
 
     data object More : NavigationItem(
-        screen = Screen.More,
+        screen = Screen.MoreScreen,
         titleResId = R.string.more,
         image = R.drawable.more_icon
 
