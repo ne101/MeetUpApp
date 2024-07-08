@@ -20,6 +20,7 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import com.example.wb_homework.ui.theme.ui_kit.EventCard
 import com.example.wb_homework.ui.theme.ui_kit.ImageIcon
 import com.example.wb_homework.ui.theme.ui_kit.SearchView
 import com.example.wb_homework.ui.theme.ui_kit.Subheading1
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,9 +43,14 @@ fun AllEventsScreen(
     onAddPressed: () -> Unit,
     onEventCardClickListener: () -> Unit
 ) {
-    val events = mutableListOf<Event>().apply {
+    val eventsActive = mutableListOf<Event>().apply {
         repeat(20) {
             add(Event(id = it))
+        }
+    }
+    val allEvents = mutableListOf<Event>().apply {
+        repeat(20) {
+            add(Event(id = it, finished = Random.nextBoolean()))
         }
     }
     Scaffold(
@@ -113,7 +120,7 @@ fun AllEventsScreen(
 
             if (state == 0) {
                 LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
-                    items(items = events, key = {it.id}) {
+                    items(items = allEvents, key = {it.id}) {
                         EventCard(
                             event = it,
                             onEventCardClickListener = {
@@ -125,7 +132,7 @@ fun AllEventsScreen(
                 }
             } else {
                 LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
-                    items(items = events, key = {it.id}) {
+                    items(items = eventsActive, key = {it.id}) {
                         EventCard(
                             event = it,
                             onEventCardClickListener = {onEventCardClickListener()}
