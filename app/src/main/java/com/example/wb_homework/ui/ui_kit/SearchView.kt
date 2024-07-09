@@ -1,4 +1,4 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wb_homework.ui.theme.GrayDefault
+import com.example.wb_homework.ui.theme.OffWhite
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +70,7 @@ fun SearchView() {
             cursorColor = GrayDefault,
             focusedLeadingIconColor = GrayDefault,
             unfocusedLeadingIconColor = GrayDefault,
-            containerColor = Color(0xFFF7F7FC),
+            containerColor = OffWhite,
             disabledLeadingIconColor = GrayDefault,
             focusedTrailingIconColor = GrayDefault,
             unfocusedTrailingIconColor = GrayDefault,

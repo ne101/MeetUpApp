@@ -1,4 +1,4 @@
-package com.example.wb_homework.screens
+package com.example.wb_homework.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
@@ -30,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
 import com.example.wb_homework.domain.Event
 import com.example.wb_homework.ui.theme.PurpleDefault
-import com.example.wb_homework.ui.theme.ui_kit.BodyText1
-import com.example.wb_homework.ui.theme.ui_kit.EventCard
-import com.example.wb_homework.ui.theme.ui_kit.ImageIcon
-import com.example.wb_homework.ui.theme.ui_kit.SearchView
-import com.example.wb_homework.ui.theme.ui_kit.Subheading1
+import com.example.wb_homework.ui.ui_kit.BodyText1
+import com.example.wb_homework.ui.ui_kit.EventCard
+import com.example.wb_homework.ui.ui_kit.ImageIcon
+import com.example.wb_homework.ui.ui_kit.SearchView
+import com.example.wb_homework.ui.ui_kit.Subheading1
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,6 +100,9 @@ fun AllEventsScreen(
                         Modifier.tabIndicatorOffset(state),
                         color = PurpleDefault
                     )
+                },
+                divider = {
+                    HorizontalDivider(thickness = 0.dp, color = Color.White)
                 }
             ) {
                 titles.forEachIndexed { index, title ->

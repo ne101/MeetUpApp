@@ -15,7 +15,8 @@ fun AppNavGraph(
     moreScreenContent: @Composable () -> Unit,
     myEventsScreenContent: @Composable () -> Unit,
     profileEventScreenContent: @Composable () -> Unit,
-    detailEventFromMoreScreenContent: @Composable () -> Unit
+    detailEventFromMoreScreenContent: @Composable () -> Unit,
+    themeScreenContent: @Composable () -> Unit,
 
 ) {
     NavHost(
@@ -37,7 +38,8 @@ fun AppNavGraph(
             moreScreenContent = moreScreenContent,
             profileEventScreenContent = profileEventScreenContent,
             myEventsScreenContent = myEventsScreenContent,
-            detailEventFromMoreScreenContent = detailEventFromMoreScreenContent
+            detailEventFromMoreScreenContent = detailEventFromMoreScreenContent,
+            themeScreenContent = themeScreenContent
         )
     }
 }

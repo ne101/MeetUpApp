@@ -1,7 +1,6 @@
-package com.example.wb_homework.ui.theme
+package com.example.wb_homework.navigation
 
 import com.example.wb_homework.R
-import com.example.wb_homework.navigation.Screen
 
 sealed class NavigationItem(
     val screen: Screen,

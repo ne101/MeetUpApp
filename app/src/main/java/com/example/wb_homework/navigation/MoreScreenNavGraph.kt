@@ -9,7 +9,8 @@ fun NavGraphBuilder.moreScreenNavGraph(
     moreScreenContent: @Composable () -> Unit,
     myEventsScreenContent: @Composable () -> Unit,
     profileEventScreenContent: @Composable () -> Unit,
-    detailEventFromMoreScreenContent: @Composable () -> Unit
+    detailEventFromMoreScreenContent: @Composable () -> Unit,
+    themeScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.More.route,
@@ -29,6 +30,10 @@ fun NavGraphBuilder.moreScreenNavGraph(
 
         composable(Screen.DetailEventFromMoreScreen.route) {
             detailEventFromMoreScreenContent()
+        }
+
+        composable(Screen.Theme.route) {
+            themeScreenContent()
         }
     }
 }
