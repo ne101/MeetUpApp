@@ -1,4 +1,4 @@
-package com.example.wb_homework.screens
+package com.example.wb_homework.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -11,10 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.wb_homework.R
-import com.example.wb_homework.more_screen_states.MoreScreenState
 import com.example.wb_homework.navigation.AppNavGraph
 import com.example.wb_homework.navigation.Screen
 import com.example.wb_homework.navigation.rememberNavigationState
-import com.example.wb_homework.ui.theme.NavigationItem
+import com.example.wb_homework.navigation.NavigationItem
 import com.example.wb_homework.ui.theme.TextColor
-import com.example.wb_homework.ui.theme.ui_kit.BodyText1
+import com.example.wb_homework.ui.ui_kit.BodyText1
+import com.example.wb_homework.ui.custom_phone_field.CustomPhoneField
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -166,6 +163,11 @@ fun MainScreen() {
                         navigationState.navHostController.navigate(
                             Screen.MyEvents.route
                         )
+                    },
+                    onThemeClickListener = {
+                        navigationState.navHostController.navigate(
+                            Screen.Theme.route
+                        )
                     }
                 )
             },
@@ -188,7 +190,11 @@ fun MainScreen() {
                     },
 
                     )
+            },
+            themeScreenContent = {
+                CustomUI()
             }
+
         )
     }
 }

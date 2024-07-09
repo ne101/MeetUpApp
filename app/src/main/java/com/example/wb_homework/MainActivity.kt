@@ -17,9 +17,9 @@ import androidx.compose.ui.graphics.Color
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.wb_homework.screens.MainScreen
+import com.example.wb_homework.ui.screens.MainScreen
 import com.example.wb_homework.ui.theme.Wb_homeworkTheme
-import com.example.wb_homework.ui.theme.ui_kit.MySplashScreen
+import com.example.wb_homework.ui.ui_kit.MySplashScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
