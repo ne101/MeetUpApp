@@ -1,4 +1,4 @@
-package com.example.wb_homework.screens
+package com.example.wb_homework.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
 import com.example.wb_homework.domain.Community
-import com.example.wb_homework.ui.theme.ui_kit.CommunityCard
-import com.example.wb_homework.ui.theme.ui_kit.SearchView
-import com.example.wb_homework.ui.theme.ui_kit.Subheading1
+import com.example.wb_homework.ui.ui_kit.CommunityCard
+import com.example.wb_homework.ui.ui_kit.SearchView
+import com.example.wb_homework.ui.ui_kit.Subheading1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

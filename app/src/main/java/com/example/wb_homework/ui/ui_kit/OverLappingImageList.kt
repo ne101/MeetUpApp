@@ -1,4 +1,4 @@
-package com.example.wb_homework
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.wb_homework.ui.theme.ui_kit.BodyText1
 
 @Composable
 fun OverlappingImageList(images: List<Int>, modifier: Modifier = Modifier) {
