@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.Wb_homework" parent="android:Theme.Material.Light.NoActionBar" >
-        <item name="android:windowBackground">@null</item>
+
     </style>
 </resources>

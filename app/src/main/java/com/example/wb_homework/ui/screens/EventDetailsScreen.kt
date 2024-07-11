@@ -1,5 +1,6 @@
 package com.example.wb_homework.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -25,7 +29,9 @@ import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.MapImage
 import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.MyChipRow
+import com.example.wb_homework.ui.ui_kit.PrimaryHoverButton
 import com.example.wb_homework.ui.ui_kit.PrimaryInitialButton
+import com.example.wb_homework.ui.ui_kit.SecondaryInitialButton
 import com.example.wb_homework.ui.ui_kit.Subheading1
 
 fun getImageList(): List<Int> = mutableListOf<Int>().apply {
@@ -33,6 +39,7 @@ fun getImageList(): List<Int> = mutableListOf<Int>().apply {
         add(R.drawable.person_on_meet)
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventDetailsScreen(
@@ -40,7 +47,11 @@ fun EventDetailsScreen(
 ) {
 
     val event = Event()
-    val mapUrl = "https://gas-kvas.com/grafic/uploads/posts/2024-01/gas-kvas-com-p-karta-mira-na-prozrachnom-fone-dlya-detei-3.jpg"
+    val mapUrl =
+        "https://gas-kvas.com/grafic/uploads/posts/2024-01/gas-kvas-com-p-karta-mira-na-prozrachnom-fone-dlya-detei-3.jpg"
+    val goingToEvent = remember {
+        mutableStateOf(false)
+    }
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -61,6 +72,13 @@ fun EventDetailsScreen(
                     IconButton(onClick = { onBackPressedClickListener() }) {
                         ImageIcon(iconResId = R.drawable.back_icon)
                     }
+                },
+                actions = {
+                    if (goingToEvent.value) {
+                        IconButton(onClick = { onBackPressedClickListener() }) {
+                            ImageIcon(iconResId = R.drawable.check_big)
+                        }
+                    }
                 }
             )
         },
@@ -71,10 +89,9 @@ fun EventDetailsScreen(
                 .padding(padding)
                 .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 24.dp)
-                .padding(bottom = 72.dp)
-            ,
+                .padding(bottom = 72.dp),
 
-        ) {
+            ) {
             BodyText1(
                 text = stringResource(
                     id = R.string.date_and_city_and_street,
@@ -93,11 +110,25 @@ fun EventDetailsScreen(
             Spacer(modifier = Modifier.height(20.dp))
             OverlappingImageList(images = getImageList())
             Spacer(modifier = Modifier.weight(1f))
-            PrimaryInitialButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = "Пойду на встречу!"
-            )
-        }
+            if (goingToEvent.value) {
+                SecondaryInitialButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "Схожу в другой раз!"
+                ) {
+                    goingToEvent.value = false
+                }
+            } else {
+                PrimaryInitialButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "Пойду на встречу!"
+                ) {
+                    goingToEvent.value = true
+                }
 
+            }
+
+        }
     }
 }

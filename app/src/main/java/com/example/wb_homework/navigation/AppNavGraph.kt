@@ -3,6 +3,7 @@ package com.example.wb_homework.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 @Composable
 fun AppNavGraph(
@@ -17,12 +18,25 @@ fun AppNavGraph(
     profileEventScreenContent: @Composable () -> Unit,
     detailEventFromMoreScreenContent: @Composable () -> Unit,
     themeScreenContent: @Composable () -> Unit,
+    authPhoneScreenContent: @Composable () -> Unit,
+    authCodeScreenContent: @Composable () -> Unit,
+    createAccountScreenContent: @Composable () -> Unit,
+
 
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.EventScreen.route
+        startDestination = Screen.AuthPhone.route
     ) {
+        composable(Screen.AuthPhone.route) {
+            authPhoneScreenContent()
+        }
+        composable(Screen.AuthCode.route) {
+            authCodeScreenContent()
+        }
+        composable(Screen.CreateAccount.route) {
+            createAccountScreenContent()
+        }
         eventScreenNavGraph(
             eventsScreenContent = eventsScreenContent,
             detailEventFromEventScreenContent = detailEventFromEventScreenContent

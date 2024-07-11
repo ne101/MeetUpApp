@@ -11,7 +11,11 @@ import com.example.wb_homework.R
 import com.example.wb_homework.domain.AvatarState
 
 @Composable
-fun AvatarProfile(avatar: Int, modifier: Modifier = Modifier, state: AvatarState = AvatarState.Show) {
+fun AvatarProfile(
+    modifier: Modifier = Modifier,
+    avatar: Int,
+    state: AvatarState = AvatarState.Show,
+) {
 
     Image(
         painter = if (state == AvatarState.Show) {
@@ -22,7 +26,7 @@ fun AvatarProfile(avatar: Int, modifier: Modifier = Modifier, state: AvatarState
             )
         },
         contentDescription = "",
-        modifier = modifier.size(200.dp)
+        modifier = modifier
     )
 }
 
