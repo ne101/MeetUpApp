@@ -15,6 +15,9 @@ sealed class Screen(val route: String) {
     data object Profile : Screen(ROUTE_PROFILE)
     data object MyEvents : Screen(ROUTE_MY_EVENTS)
     data object Theme : Screen(ROUTE_THEME)
+    data object AuthPhone : Screen(ROUTE_AUTH_PHONE)
+    data object AuthCode : Screen(ROUTE_AUTH_CODE)
+    data object CreateAccount : Screen(ROUTE_CREATE_ACCOUNT)
 
     private companion object {
         const val EVENT_SCREEN = "event_screen"
@@ -30,5 +33,9 @@ sealed class Screen(val route: String) {
         const val ROUTE_PROFILE = "profile"
         const val ROUTE_MY_EVENTS = "my_events"
         const val ROUTE_THEME = "theme"
+        const val ROUTE_AUTH_PHONE = "auth_phone"
+        const val ROUTE_AUTH_CODE = "auth_code"
+        const val ROUTE_CREATE_ACCOUNT = "create_account"
+
     }
 }

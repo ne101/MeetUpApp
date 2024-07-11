@@ -33,7 +33,10 @@ import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.Heading1
 
 @Composable
-fun CustomCodeField() {
+fun CustomCodeField(
+    modifier: Modifier = Modifier,
+    onComplete: (Boolean) -> Unit,
+) {
 
     var code by remember { mutableStateOf("") }
 
@@ -43,12 +46,13 @@ fun CustomCodeField() {
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         keyboardController?.show()
+
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Row(
@@ -64,45 +68,45 @@ fun CustomCodeField() {
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    when {
-                        index < code.length -> {
-                            Heading1(text = code[index].toString())
-                        }
-
-                        else -> {
-                            PlugGrayCircle()
-                        }
+                    if (index < code.length) {
+                        Heading1(text = code[index].toString())
+                    } else {
+                        PlugGrayCircle()
                     }
                 }
             }
         }
-
-        TextField(
-            value = code,
-            onValueChange = {
-                if (it.length <= CODE_LENGTH && it.all { char -> char.isDigit() }) {
-                    code = it
-                    if (code.length == CODE_LENGTH) {
-                        keyboardController?.hide()
-                    }
-                }
-            },
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .alpha(0f),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            )
-        )
     }
+
+    TextField(
+        value = code,
+        onValueChange = {
+            if (it.length <= CODE_LENGTH && it.all { char -> char.isDigit() }) {
+                code = it
+                if (code.length == CODE_LENGTH) {
+                    keyboardController?.hide()
+                    onComplete(true)
+                } else {
+                    onComplete(false)
+                }
+            }
+        },
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .alpha(0f),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+            }
+        )
+    )
 }
+
 
 @Composable
 fun PlugGrayCircle() {

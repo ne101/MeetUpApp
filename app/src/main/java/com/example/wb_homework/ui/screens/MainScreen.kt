@@ -35,65 +35,74 @@ import com.example.wb_homework.ui.custom_phone_field.CustomPhoneField
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
-
+    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val authScreens = listOf(
+        Screen.AuthPhone.route,
+        Screen.AuthCode.route,
+        Screen.CreateAccount.route
+    )
     Scaffold(
         containerColor = Color.White,
         bottomBar = {
-            NavigationBar(
-                containerColor = Color.White,
-            ) {
-                val items = listOf(
-                    NavigationItem.Meet,
-                    NavigationItem.Community,
-                    NavigationItem.More
-                )
-                val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-                items.forEach { item ->
-                    val selected = navBackStackEntry?.destination?.hierarchy?.any {
-                        it.route == item.screen.route
-                    } ?: false
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = {
-                            if (!selected) {
-                                navigationState.navigateTo(item.screen.route)
-                            }
-                        },
-                        label = { },
-                        icon = {
-                            if (!selected) {
-                                Icon(
-                                    painter = painterResource(id = item.image),
-                                    contentDescription = "",
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            } else {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    BodyText1(text = stringResource(id = item.titleResId))
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.point_icon),
-                                        contentDescription = "",
-                                    )
-                                }
-                            }
-
-                        },
-                        colors = NavigationBarItemColors(
-                            selectedIconColor = TextColor,
-                            selectedTextColor = TextColor,
-                            selectedIndicatorColor = Color.White,
-                            unselectedIconColor = TextColor,
-                            unselectedTextColor = TextColor,
-                            disabledIconColor = TextColor,
-                            disabledTextColor = TextColor
-                        ),
+            if (currentRoute !in authScreens) {
+                NavigationBar(
+                    containerColor = Color.White,
+                ) {
+                    val items = listOf(
+                        NavigationItem.Meet,
+                        NavigationItem.Community,
+                        NavigationItem.More
                     )
 
+                    items.forEach { item ->
+                        val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                            it.route == item.screen.route
+                        } ?: false
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = {
+                                if (!selected) {
+                                    navigationState.navigateTo(item.screen.route)
+                                }
+                            },
+                            label = { },
+                            icon = {
+                                if (!selected) {
+                                    Icon(
+                                        painter = painterResource(id = item.image),
+                                        contentDescription = "",
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                } else {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        BodyText1(text = stringResource(id = item.titleResId))
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.point_icon),
+                                            contentDescription = "",
+                                        )
+                                    }
+                                }
+
+                            },
+                            colors = NavigationBarItemColors(
+                                selectedIconColor = TextColor,
+                                selectedTextColor = TextColor,
+                                selectedIndicatorColor = Color.White,
+                                unselectedIconColor = TextColor,
+                                unselectedTextColor = TextColor,
+                                disabledIconColor = TextColor,
+                                disabledTextColor = TextColor
+                            ),
+                        )
+
+                    }
                 }
             }
+
         }
     ) {
         AppNavGraph(
@@ -193,9 +202,33 @@ fun MainScreen() {
                     )
             },
             themeScreenContent = {
-                CustomUI()
-            }
 
+            },
+            authPhoneScreenContent = {
+                AuthPhoneScreen(
+                    launchAuthCodeScreen = {
+                        navigationState.navigateTo(Screen.AuthCode.route)
+                    }
+                )
+            },
+            authCodeScreenContent = {
+                AuthCodeScreen(
+                    launchCreateProfileScreen = {
+                        navigationState.navigateTo(Screen.CreateAccount.route)
+                    }
+                )
+            },
+            createAccountScreenContent = {
+                CreateAccountScreen(
+                    launchEventScreen = {
+                        navigationState.navHostController.popBackStack(
+                            navigationState.navHostController.graph.startDestinationId,
+                            true
+                        )
+                        navigationState.navHostController.navigate(Screen.Events.route)
+                    }
+                )
+            }
         )
     }
 }
