@@ -1,4 +1,4 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

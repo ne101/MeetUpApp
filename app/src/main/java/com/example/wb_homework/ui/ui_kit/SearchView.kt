@@ -1,4 +1,4 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +14,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -22,11 +24,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wb_homework.ui.theme.GrayDefault
+import com.example.wb_homework.ui.theme.OffWhite
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchView(state: MutableState<TextFieldValue>) {
+fun SearchView() {
+    val state = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
     TextField(
         value = state.value,
         onValueChange = { value -> state.value = value },
@@ -64,7 +70,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             cursorColor = GrayDefault,
             focusedLeadingIconColor = GrayDefault,
             unfocusedLeadingIconColor = GrayDefault,
-            containerColor = Color(0xFFF7F7FC),
+            containerColor = OffWhite,
             disabledLeadingIconColor = GrayDefault,
             focusedTrailingIconColor = GrayDefault,
             unfocusedTrailingIconColor = GrayDefault,

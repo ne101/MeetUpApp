@@ -1,4 +1,4 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +27,7 @@ fun MyChips() {
 
 @Composable
 fun MyChipRow(event: Event) {
-    Row {
+    Row(modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)) {
         for (chip in event.chips) {
             ChipView(text = chip)
             Spacer(modifier = Modifier.width(4.dp))

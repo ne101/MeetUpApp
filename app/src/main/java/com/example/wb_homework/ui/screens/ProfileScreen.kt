@@ -1,4 +1,4 @@
-package com.example.wb_homework.screens
+package com.example.wb_homework.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
 import com.example.wb_homework.domain.Profile
 import com.example.wb_homework.ui.theme.PhoneColor
-import com.example.wb_homework.ui.theme.ui_kit.AvatarProfile
-import com.example.wb_homework.ui.theme.ui_kit.ButtonWithIcon
-import com.example.wb_homework.ui.theme.ui_kit.Heading2
-import com.example.wb_homework.ui.theme.ui_kit.ImageIcon
-import com.example.wb_homework.ui.theme.ui_kit.Subheading1
-import com.example.wb_homework.ui.theme.ui_kit.Subheading2
+import com.example.wb_homework.ui.ui_kit.AvatarProfile
+import com.example.wb_homework.ui.ui_kit.ButtonWithIcon
+import com.example.wb_homework.ui.ui_kit.Heading2
+import com.example.wb_homework.ui.ui_kit.ImageIcon
+import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.ui.ui_kit.Subheading2
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

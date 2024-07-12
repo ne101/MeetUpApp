@@ -1,4 +1,4 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,7 +32,8 @@ fun PrimaryInitialButton(
             .clip(RoundedCornerShape(30.dp))
             .clickable {}
             .background(PurpleDefault)
-            .padding(vertical = 12.dp, horizontal = 48.dp)
+            .padding(vertical = 12.dp, horizontal = 48.dp),
+        contentAlignment = Alignment.Center
 
     ) {
         Subheading2(text = text, color = textColor)

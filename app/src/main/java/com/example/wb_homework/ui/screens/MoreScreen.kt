@@ -1,4 +1,4 @@
-package com.example.wb_homework.screens
+package com.example.wb_homework.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -25,15 +25,19 @@ import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
 import com.example.wb_homework.domain.Profile
 import com.example.wb_homework.ui.theme.PhoneColor
-import com.example.wb_homework.ui.theme.ui_kit.BodyText1
-import com.example.wb_homework.ui.theme.ui_kit.ImageIcon
-import com.example.wb_homework.ui.theme.ui_kit.MetaData1
-import com.example.wb_homework.ui.theme.ui_kit.ProfileCard
-import com.example.wb_homework.ui.theme.ui_kit.Subheading1
+import com.example.wb_homework.ui.ui_kit.BodyText1
+import com.example.wb_homework.ui.ui_kit.ImageIcon
+import com.example.wb_homework.ui.ui_kit.MetaData1
+import com.example.wb_homework.ui.ui_kit.ProfileCard
+import com.example.wb_homework.ui.ui_kit.Subheading1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreScreen(onProfileClickListener: () -> Unit, onMyMeetsClickListener: () -> Unit) {
+fun MoreScreen(
+    onProfileClickListener: () -> Unit,
+    onMyMeetsClickListener: () -> Unit,
+    onThemeClickListener: () -> Unit
+) {
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -71,7 +75,7 @@ fun MoreScreen(onProfileClickListener: () -> Unit, onMyMeetsClickListener: () ->
                 icon = R.drawable.sun_icon,
                 title = "Тема"
             ) {
-
+                onThemeClickListener()
             }
             Spacer(modifier = Modifier.height(8.dp))
             ElementCardForMoreScreen(

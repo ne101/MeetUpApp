@@ -1,7 +1,6 @@
-package com.example.wb_homework.ui.theme.ui_kit
+package com.example.wb_homework.ui.ui_kit
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -21,59 +20,19 @@ import com.example.wb_homework.domain.Event
 fun EventCard(
     modifier: Modifier = Modifier,
     event: Event,
-
-    ) {
-    Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        modifier = modifier.clickable {  },
-        colors = CardColors(
-            contentColor = Color.Unspecified,
-            disabledContentColor = Color.Unspecified,
-            containerColor = Color.White,
-            disabledContainerColor = Color.White
-        )
-    ) {
-        Column {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                AvatarMeet(event.avatarId)
-                Spacer(modifier = Modifier.width(12.dp))
-                Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                    BodyText1(text = event.eventName)
-                    Spacer(modifier = Modifier.height(2.dp))
-                    MetaData1(
-                        text = LocalContext.current.getString(
-                            R.string.date_and_city,
-                            event.data,
-                            event.city
-                        ),
-                        color = Color(0xFFA4A4A4)
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    MyChipRow(event = event)
-                }
-            }
-            HorizontalDivider(color = Color(0xFFEDEDED))
-        }
-    }
-}
-
-@SuppressLint("StringFormatMatches")
-@Composable
-fun EventCardFinished(
-    modifier: Modifier = Modifier,
-    event: Event,
+    onEventCardClickListener: () -> Unit
 ) {
     Card(
-        modifier = modifier.clickable { },
+        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors = CardColors(
             contentColor = Color.Unspecified, disabledContentColor = Color.Unspecified,
             containerColor = Color.White, disabledContainerColor = Color.White
         )
     ) {
-        Column {
+        Column(modifier = Modifier.clickable { onEventCardClickListener() }) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                AvatarMeet(event.avatarId)
+                AvatarForCard(event.avatarId)
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(
                     modifier = Modifier
@@ -93,7 +52,9 @@ fun EventCardFinished(
                     Spacer(modifier = Modifier.height(2.dp))
                     MyChipRow(event = event)
                 }
-                MetaData2(text = "Закончилась", color = Color(0xFFA4A4A4))
+                if (event.finished) {
+                    MetaData2(text = "Закончилась", color = Color(0xFFA4A4A4))
+                }
             }
             HorizontalDivider(color = Color(0xFFEDEDED))
         }
