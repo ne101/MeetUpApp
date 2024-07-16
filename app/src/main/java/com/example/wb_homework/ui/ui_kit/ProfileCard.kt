@@ -15,10 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Profile
+import com.example.wb_homework.domain.entities.Profile
 import com.example.wb_homework.ui.theme.PhoneColor
 
 @Composable

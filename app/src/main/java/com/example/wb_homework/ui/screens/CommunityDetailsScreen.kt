@@ -13,31 +13,54 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Event
+import com.example.wb_homework.domain.entities.Community
+import com.example.wb_homework.domain.entities.Event
+import com.example.wb_homework.screen_states.CommunityDetailsScreenState
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.EventCard
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.Subheading1
-import kotlin.random.Random
+import com.example.wb_homework.viewmodels.CommunityDetailsViewModel
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityDetailsScreen(
     onBackPressedClickListener: () -> Unit,
-    onEventCardClickListener: () -> Unit
+    onEventCardClickListener: () -> Unit,
 ) {
-    val meets = mutableListOf<Event>().apply {
-        repeat(20) {
-            add(Event(id = it, finished = Random.nextBoolean()))
+    val viewModel: CommunityDetailsViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(CommunityDetailsScreenState.Initial)
+    viewModel.loadCommunity()
+    when (val currentState = screenState.value) {
+        is CommunityDetailsScreenState.CommunityDetails -> {
+            CommunityDetails(
+                community = currentState.community,
+                events = currentState.community.events,
+                onEventCardClickListener = { onEventCardClickListener() },
+                onBackPressedClickListener = { onBackPressedClickListener() }
+            )
         }
+
+        CommunityDetailsScreenState.Initial -> {}
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CommunityDetails(
+    community: Community,
+    events: List<Event>,
+    onEventCardClickListener: () -> Unit,
+    onBackPressedClickListener: () -> Unit,
+) {
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -51,7 +74,7 @@ fun CommunityDetailsScreen(
 
                 ),
                 title = {
-                    Subheading1(text = "Designa")
+                    Subheading1(text = community.communityName)
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackPressedClickListener() }) {
@@ -72,16 +95,19 @@ fun CommunityDetailsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             MetaData1(
-                text = LoremIpsum().values.first().take(50),
+                text = community.description,
                 color = GrayDefault,
                 modifier = Modifier.padding(bottom = 14.dp)
             )
-            BodyText1(text = "Встречи сообщества", color = GrayDefault)
+            BodyText1(
+                text = stringResource(id = R.string.community_events),
+                color = GrayDefault
+            )
             LazyColumn(
                 modifier = Modifier.padding(bottom = 72.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(items = meets, key = {it.id}) {
+                items(items = events, key = { it.id }) {
                     EventCard(
                         event = it,
                         onEventCardClickListener = {
@@ -93,3 +119,4 @@ fun CommunityDetailsScreen(
         }
     }
 }
+

@@ -19,10 +19,8 @@ fun AppNavGraph(
     detailEventFromMoreScreenContent: @Composable () -> Unit,
     themeScreenContent: @Composable () -> Unit,
     authPhoneScreenContent: @Composable () -> Unit,
-    authCodeScreenContent: @Composable () -> Unit,
+    authCodeScreenContent: @Composable (String) -> Unit,
     createAccountScreenContent: @Composable () -> Unit,
-
-
 ) {
     NavHost(
         navController = navHostController,
@@ -32,7 +30,8 @@ fun AppNavGraph(
             authPhoneScreenContent()
         }
         composable(Screen.AuthCode.route) {
-            authCodeScreenContent()
+            val phoneNumber = it.arguments?.getString(Screen.AuthCode.KEY_PHONE_NUMBER) ?: ""
+            authCodeScreenContent(phoneNumber)
         }
         composable(Screen.CreateAccount.route) {
             createAccountScreenContent()

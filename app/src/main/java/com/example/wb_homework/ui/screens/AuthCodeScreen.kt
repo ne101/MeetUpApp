@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,12 +24,20 @@ import com.example.wb_homework.ui.ui_kit.BodyText2
 import com.example.wb_homework.ui.ui_kit.GhostInitialButton
 import com.example.wb_homework.ui.ui_kit.Heading2
 import com.example.wb_homework.ui.ui_kit.ImageIcon
+import com.example.wb_homework.viewmodels.AuthCodeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthCodeScreen(
+    phoneNumber: String,
     launchCreateProfileScreen: () -> Unit,
 ) {
+    val viewModel: AuthCodeViewModel = koinViewModel()
+    val formattedPhone = StringBuilder(phoneNumber)
+        .insert(3, " ")
+        .insert(7, "-")
+        .insert(10, "-")
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -81,6 +90,17 @@ fun AuthCodeScreen(
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
+            BodyText2(
+                text = LocalContext.current
+                    .getString(
+                        R.string.phone_number,
+                        formattedPhone
+                    ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(50.dp))
             CustomCodeField(modifier = Modifier.padding(horizontal = 24.dp)) {
                 if (it) {
@@ -96,3 +116,4 @@ fun AuthCodeScreen(
         }
     }
 }
+

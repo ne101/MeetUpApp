@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -207,15 +208,17 @@ fun MainScreen() {
             authPhoneScreenContent = {
                 AuthPhoneScreen(
                     launchAuthCodeScreen = {
-                        navigationState.navigateTo(Screen.AuthCode.route)
-                    }
+                        navigationState.navigateToAuthCodeScreen(it)
+                    },
+
                 )
             },
-            authCodeScreenContent = {
+            authCodeScreenContent = { phoneNumber ->
                 AuthCodeScreen(
                     launchCreateProfileScreen = {
                         navigationState.navigateTo(Screen.CreateAccount.route)
-                    }
+                    },
+                    phoneNumber = phoneNumber
                 )
             },
             createAccountScreenContent = {
