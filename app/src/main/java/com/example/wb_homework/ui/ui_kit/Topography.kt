@@ -6,105 +6,179 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.wb_homework.ui.theme.TextColor
 
 @Composable
-fun Heading1(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun Heading1(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 32.sp,
         color = color,
         fontWeight = FontWeight.Bold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun Heading2(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun Heading2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 24.sp,
         color = color,
         fontWeight = FontWeight.Bold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines,
     )
 }
 
 @Composable
-fun Subheading1(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun Subheading1(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 18.sp,
         color = color,
         fontWeight = FontWeight.SemiBold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun Subheading2(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun Subheading2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 16.sp,
         color = color,
         fontWeight = FontWeight.SemiBold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 
 @Composable
-fun BodyText1(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun BodyText1(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 14.sp,
         color = color,
         fontWeight = FontWeight.SemiBold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun BodyText2(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun BodyText2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 14.sp,
         color = color,
         fontWeight = FontWeight.Normal,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun MetaData1(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun MetaData1(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 12.sp,
         color = color,
         fontWeight = FontWeight.Normal,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun MetaData2(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun MetaData2(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 10.sp,
         color = color,
         fontWeight = FontWeight.Normal,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }
 
 @Composable
-fun MetaData3(text: String, modifier: Modifier = Modifier, color: Color = TextColor) {
+fun MetaData3(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = TextColor,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     Text(
         text = text,
         fontSize = 10.sp,
         color = color,
         fontWeight = FontWeight.SemiBold,
-        modifier = modifier
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines
     )
 }

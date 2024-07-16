@@ -7,5 +7,13 @@
     <string name="more">Еще</string>
     <string name="profile">Профиль</string>
     <string name="my_meets">Мои встречи</string>
-
+    <string name="input_phone">Введите номер телефона</string>
+    <string name="instruction_about_auth">Мы вышлем код подтверждения на указаный номер</string>
+    <string name="next">Продолжить</string>
+    <string name="send_code">Отправили код на номер +7 999 999-99-99</string>
+    <string name="input_code">Введите код</string>
+    <string name="name">Имя (обязательно)</string>
+    <string name="surname">Фамилия (опционально)</string>
+    <string name="save">Сохранить</string>
+    <string name="recall_code">Запросить код повторно</string>
 </resources>

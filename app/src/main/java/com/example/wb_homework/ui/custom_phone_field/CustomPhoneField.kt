@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,15 +42,14 @@ import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 
 @Composable
-fun CustomPhoneField() {
+fun CustomPhoneField(
+    onComplete: (Boolean) -> Unit
+) {
     var phoneNumber by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
     val mask = "000 000-00-00"
     val maskNumber = '0'
     Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(4.dp))
-            .padding(horizontal = 8.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
@@ -71,6 +71,12 @@ fun CustomPhoneField() {
                         it == maskNumber
                     }
                 )
+                if (phoneNumber.length == PHONE_LENGTH) {
+                    keyboardController?.hide()
+                    onComplete(true)
+                } else {
+                    onComplete(false)
+                }
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone
@@ -82,7 +88,8 @@ fun CustomPhoneField() {
                         .weight(1f)
                         .clip(RoundedCornerShape(4.dp))
                         .background(OffWhite)
-                        .defaultMinSize(minHeight = 40.dp, minWidth = 340.dp)
+                        .defaultMinSize(minHeight = 36.dp)
+                        .fillMaxWidth()
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
@@ -98,4 +105,6 @@ fun CustomPhoneField() {
 
         )
     }
+
 }
+const val PHONE_LENGTH = 10
