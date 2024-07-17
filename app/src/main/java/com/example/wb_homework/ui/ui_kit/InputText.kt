@@ -36,15 +36,12 @@ fun InputText(
         value = text,
         onValueChange = {
             text = it
-            if (text.trim().isNotEmpty() && necessarily) {
-                onComplete(true)
-            } else {
-                onComplete(false)
-            }
+            onComplete(text.trim().isNotEmpty() && necessarily)
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text
         ),
+        maxLines = 1,
         decorationBox = {
             Box(
                 Modifier
@@ -58,7 +55,8 @@ fun InputText(
                 if (text.trim().isEmpty()) {
                     BodyText1(
                         text = textPlaceHolder,
-                        color = GrayDefault
+                        color = GrayDefault,
+                        maxLines = 1
                     )
                 }
                 it()

@@ -1,7 +1,5 @@
 package com.example.wb_homework.ui.screens
 
-import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,24 +13,44 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Community
+import com.example.wb_homework.domain.entities.Community
+import com.example.wb_homework.screen_states.CommunityScreenState
 import com.example.wb_homework.ui.ui_kit.CommunityCard
 import com.example.wb_homework.ui.ui_kit.SearchView
 import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.viewmodels.CommunityViewModel
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
+    val viewModel: CommunityViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(CommunityScreenState.Initial)
+    viewModel.loadCommunityList()
+    when (val currentState = screenState.value) {
+        is CommunityScreenState.CommunityList -> {
+            CommunityColumn(
+                currentState.communityList
+            ) {
+                onClickCommunityCardListener()
+            }
+        }
+
+        CommunityScreenState.Initial -> {}
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
-    val communities = mutableListOf<Community>().apply {
-        repeat(20) {
-            add(Community(id = it))
-        }
-    }
+fun CommunityColumn(
+    communities: List<Community>,
+    onClickCommunityCardListener: () -> Unit,
+) {
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -51,7 +69,6 @@ fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
                 navigationIcon = {
                     Spacer(modifier = Modifier.width(24.dp))
                 }
-
             )
         }
     ) { padding ->
@@ -65,9 +82,9 @@ fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
             SearchView()
             LazyColumn(
                 modifier = Modifier.padding(bottom = 72.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp) 
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(items = communities, key = {it.id}) {
+                items(items = communities, key = { it.id }) {
                     CommunityCard(
                         community = it,
                         onClickCommunityCardListener = {

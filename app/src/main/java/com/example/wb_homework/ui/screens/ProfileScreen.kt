@@ -14,13 +14,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Profile
+import com.example.wb_homework.domain.entities.Profile
+import com.example.wb_homework.screen_states.ProfileScreenState
 import com.example.wb_homework.ui.theme.PhoneColor
 import com.example.wb_homework.ui.ui_kit.AvatarProfile
 import com.example.wb_homework.ui.ui_kit.ButtonWithIcon
@@ -28,13 +30,34 @@ import com.example.wb_homework.ui.ui_kit.Heading2
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.Subheading1
 import com.example.wb_homework.ui.ui_kit.Subheading2
+import com.example.wb_homework.viewmodels.ProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     onBackPressed: () -> Unit,
 ) {
-    val profile = Profile()
+    val viewModel: ProfileViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(ProfileScreenState.Initial)
+    viewModel.loadProfile()
+    when (val currentState = screenState.value) {
+        is ProfileScreenState.ProfileInfo -> {
+            ProfileComponent(profile = currentState.profile) {
+                onBackPressed()
+            }
+        }
+
+        ProfileScreenState.Initial -> {}
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileComponent(
+    profile: Profile,
+    onBackPressed: () -> Unit,
+) {
     Scaffold(
         containerColor = Color.White,
         topBar = {

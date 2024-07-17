@@ -18,6 +18,8 @@ import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -27,30 +29,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Event
+import com.example.wb_homework.screen_states.MyEventsScreenState
 import com.example.wb_homework.ui.theme.PurpleDefault
 import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.EventCard
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.viewmodels.MyEventsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyEventsScreen(
     onBackPressed: () -> Unit,
-    onEventCardClickListener: () -> Unit
+    onEventCardClickListener: () -> Unit,
 ) {
-    val meets = mutableListOf<Event>().apply {
-        repeat(20) {
-            add(Event(id = it))
-        }
-    }
-
-    val finishedEvents = mutableListOf<Event>().apply {
-        repeat(20) {
-            add(Event(id = it, finished = true))
-        }
-    }
+    val viewModel: MyEventsViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(MyEventsScreenState.Initial)
+    viewModel.loadPlannedEventList()
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -74,8 +70,11 @@ fun MyEventsScreen(
             )
         }
     ) { padding ->
-        var state by remember { mutableIntStateOf(0) }
-        val titles = listOf("ЗАПЛАНИРОВАНО", "УЖЕ ПРОШЛИ")
+        var state by remember { mutableIntStateOf(FIRST_TAB) }
+        val titles = listOf(
+            stringResource(id = R.string.planned),
+            stringResource(id = R.string.already_passed)
+        )
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -98,9 +97,16 @@ fun MyEventsScreen(
                 titles.forEachIndexed { index, title ->
                     Tab(
                         selected = state == index,
-                        onClick = { state = index },
+                        onClick = {
+                            state = index
+                            if (state == FIRST_TAB) {
+                                viewModel.loadPlannedEventList()
+                            } else {
+                                viewModel.loadPassedEventList()
+                            }
+                        },
                         text = {
-                             if (state == index) {
+                            if (state == index) {
                                 BodyText1(text = title, color = PurpleDefault)
 
                             } else {
@@ -111,35 +117,55 @@ fun MyEventsScreen(
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
-
-            if (state == 0) {
-                LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
-                    items(items = meets) {
-                        EventCard(
-                            event = it,
-                            onEventCardClickListener = {
-                                onEventCardClickListener()
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                    }
-                }
-            } else {
-                LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
-                    items(items = finishedEvents) {
-                        EventCard(
-                            event = it,
-                            onEventCardClickListener = {
-                                onEventCardClickListener()
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                    }
-                }
+            EventColumns(screenState = screenState) {
+                onEventCardClickListener()
             }
+
         }
     }
 }
+
+@Composable
+fun EventColumns(
+    screenState: State<MyEventsScreenState>,
+    onEventCardClickListener: () -> Unit,
+) {
+
+    when (val currentState = screenState.value) {
+        is MyEventsScreenState.PlannedEventList -> {
+            LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
+                items(items = currentState.plannedEventList) {
+                    EventCard(
+                        event = it,
+                        onEventCardClickListener = {
+                            onEventCardClickListener()
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+        }
+
+        is MyEventsScreenState.PassedEventList -> {
+
+            LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
+                items(items = currentState.passedEventList) {
+                    EventCard(
+                        event = it,
+                        onEventCardClickListener = {
+                            onEventCardClickListener()
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+
+        }
+
+        MyEventsScreenState.Initial -> {}
+    }
+}
+
 
 
 

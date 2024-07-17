@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Event
+import com.example.wb_homework.domain.entities.Event
 
 @SuppressLint("StringFormatMatches")
 @Composable

@@ -16,10 +16,19 @@ sealed class Screen(val route: String) {
     data object MyEvents : Screen(ROUTE_MY_EVENTS)
     data object Theme : Screen(ROUTE_THEME)
     data object AuthPhone : Screen(ROUTE_AUTH_PHONE)
-    data object AuthCode : Screen(ROUTE_AUTH_CODE)
+
+    data object AuthCode : Screen(ROUTE_AUTH_CODE) {
+        private const val ROUTE_FOR_ARGS = "auth_code"
+        const val KEY_PHONE_NUMBER = "phone_number"
+        fun getRouteWithArgs(phoneNumber: String): String {
+            return "$ROUTE_FOR_ARGS/${phoneNumber}"
+        }
+    }
+
     data object CreateAccount : Screen(ROUTE_CREATE_ACCOUNT)
 
     private companion object {
+
         const val EVENT_SCREEN = "event_screen"
         const val COMMUNITY_SCREEN = "community_screen"
         const val MORE_SCREEN = "more_screen"
@@ -34,7 +43,7 @@ sealed class Screen(val route: String) {
         const val ROUTE_MY_EVENTS = "my_events"
         const val ROUTE_THEME = "theme"
         const val ROUTE_AUTH_PHONE = "auth_phone"
-        const val ROUTE_AUTH_CODE = "auth_code"
+        const val ROUTE_AUTH_CODE = "auth_code/{${AuthCode.KEY_PHONE_NUMBER}}"
         const val ROUTE_CREATE_ACCOUNT = "create_account"
 
     }

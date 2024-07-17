@@ -46,7 +46,6 @@ fun CustomCodeField(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         keyboardController?.show()
-
     }
 
     Column(
