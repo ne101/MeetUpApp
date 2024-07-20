@@ -21,5 +21,4 @@ fun ImageIcon(
             contentDescription = "",
         )
     }
-
 }

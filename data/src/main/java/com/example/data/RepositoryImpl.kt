@@ -1,9 +1,10 @@
-package com.example.wb_homework.data
+package com.example.data
 
-import com.example.wb_homework.domain.entities.Community
-import com.example.wb_homework.domain.entities.Event
-import com.example.wb_homework.domain.entities.Profile
-import com.example.wb_homework.domain.repository.Repository
+
+import com.example.domain.entities.Community
+import com.example.domain.entities.Event
+import com.example.domain.entities.Profile
+import com.example.domain.repository.Repository
 import kotlin.random.Random
 
 class RepositoryImpl : Repository {
@@ -14,7 +15,12 @@ class RepositoryImpl : Repository {
     override fun getEventList(): List<Event> {
         return mutableListOf<Event>().apply {
             repeat(40) {
-                add(Event(id = it, finished = Random.nextBoolean()))
+                add(
+                    Event(
+                        id = it,
+                        finished = Random.nextBoolean(),
+                    )
+                )
             }
         }
     }

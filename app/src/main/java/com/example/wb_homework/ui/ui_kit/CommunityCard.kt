@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.wb_homework.domain.entities.Community
+import com.example.domain.entities.Community
 
 
 @Composable
@@ -36,7 +36,7 @@ fun CommunityCard(
     ) {
         Column(modifier = Modifier.clickable { onClickCommunityCardListener() }) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                AvatarForCard(community.avatarCommunityId)
+                AvatarForCard(community.avatarCommunity)
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Spacer(modifier = Modifier.height(4.dp))

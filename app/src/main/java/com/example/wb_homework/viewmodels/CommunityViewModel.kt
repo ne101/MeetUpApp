@@ -1,7 +1,7 @@
 package com.example.wb_homework.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.wb_homework.domain.usecases.GetCommunityListUseCase
+import com.example.domain.usecases.GetCommunityListUseCase
 import com.example.wb_homework.screen_states.CommunityScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

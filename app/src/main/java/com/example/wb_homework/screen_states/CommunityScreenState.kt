@@ -1,6 +1,6 @@
 package com.example.wb_homework.screen_states
 
-import com.example.wb_homework.domain.entities.Community
+import com.example.domain.entities.Community
 
 sealed class CommunityScreenState {
     data object Initial : CommunityScreenState()

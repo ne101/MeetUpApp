@@ -1,7 +1,7 @@
 package com.example.wb_homework.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.wb_homework.domain.usecases.GetProfileUseCase
+import com.example.domain.usecases.GetProfileUseCase
 import com.example.wb_homework.screen_states.ProfileScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

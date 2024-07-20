@@ -19,10 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wb_homework.ui.ui_kit.OverlappingImageList
+import com.example.domain.entities.Event
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.entities.Event
 import com.example.wb_homework.screen_states.EventDetailsScreenState
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.ui_kit.BodyText1
@@ -30,6 +28,7 @@ import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.MapImage
 import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.MyChipRow
+import com.example.wb_homework.ui.ui_kit.OverlappingImageList
 import com.example.wb_homework.ui.ui_kit.PrimaryInitialButton
 import com.example.wb_homework.ui.ui_kit.SecondaryInitialButton
 import com.example.wb_homework.ui.ui_kit.Subheading1

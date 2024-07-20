@@ -103,9 +103,7 @@ fun AuthCodeScreen(
             )
             Spacer(modifier = Modifier.height(50.dp))
             CustomCodeField(modifier = Modifier.padding(horizontal = 24.dp)) {
-                if (it) {
-                    launchCreateProfileScreen()
-                }
+                launchCreateProfileScreen()
             }
             Spacer(modifier = Modifier.height(70.dp))
             GhostInitialButton(

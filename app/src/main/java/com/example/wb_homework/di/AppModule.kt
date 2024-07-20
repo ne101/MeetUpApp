@@ -1,6 +1,5 @@
 package com.example.wb_homework.di
 
-import com.example.wb_homework.ui.screens.CommunityDetails
 import com.example.wb_homework.viewmodels.AllEventsViewModel
 import com.example.wb_homework.viewmodels.AuthCodeViewModel
 import com.example.wb_homework.viewmodels.AuthPhoneViewModel

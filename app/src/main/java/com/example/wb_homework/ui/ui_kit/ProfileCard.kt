@@ -8,23 +8,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.domain.entities.Profile
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.entities.Profile
 import com.example.wb_homework.ui.theme.PhoneColor
 
 @Composable
 fun ProfileCard(
     profile: Profile,
     modifier: Modifier = Modifier,
-    onProfileClickListener: () -> Unit
+    onProfileClickListener: () -> Unit,
 ) {
     Card(
         modifier = modifier.clickable { onProfileClickListener() },
@@ -34,11 +36,18 @@ fun ProfileCard(
             containerColor = Color.White, disabledContainerColor = Color.White
         )
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically) {
-            ImageIcon(iconResId = profile.avatarResId, modifier = Modifier.size(50.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AvatarProfile(
+                avatar = profile.avatar,
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(50.dp))
+            )
             Spacer(modifier = Modifier.width(20.dp))
             Column(modifier = Modifier.weight(1f)) {
                 BodyText1(text = profile.name)

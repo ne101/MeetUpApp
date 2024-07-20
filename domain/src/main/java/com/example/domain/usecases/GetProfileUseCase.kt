@@ -1,6 +1,6 @@
-package com.example.wb_homework.domain.usecases
+package com.example.domain.usecases
 
-import com.example.wb_homework.domain.repository.Repository
+import com.example.domain.repository.Repository
 
 class GetProfileUseCase(private val repository: Repository) {
     operator fun invoke() = repository.getProfile()

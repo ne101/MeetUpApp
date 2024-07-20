@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "wb_homework"
 include(":app")
- 
+include(":domain")
+include(":data")
