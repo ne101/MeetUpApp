@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.entities.Community
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.entities.Community
 import com.example.wb_homework.screen_states.CommunityScreenState
 import com.example.wb_homework.ui.ui_kit.CommunityCard
 import com.example.wb_homework.ui.ui_kit.SearchView

@@ -1,6 +1,6 @@
 package com.example.wb_homework.screen_states
 
-import com.example.wb_homework.domain.entities.Event
+import com.example.domain.entities.Event
 
 sealed class MyEventsScreenState {
 

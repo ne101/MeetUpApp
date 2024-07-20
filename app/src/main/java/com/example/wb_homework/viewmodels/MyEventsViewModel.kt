@@ -1,8 +1,8 @@
 package com.example.wb_homework.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.wb_homework.domain.entities.Event
-import com.example.wb_homework.domain.usecases.GetEventListUseCase
+import com.example.domain.entities.Event
+import com.example.domain.usecases.GetEventListUseCase
 import com.example.wb_homework.screen_states.MyEventsScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -4,19 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import coil.compose.rememberImagePainter
+import com.example.domain.entities.AvatarState
+import com.example.domain.entities.AvatarState.Show
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.entities.AvatarState
 
 @Composable
 fun AvatarProfile(
     modifier: Modifier = Modifier,
-    avatar: Int,
-    state: AvatarState = AvatarState.Show,
+    avatar: String,
+    state: AvatarState = Show,
 ) {
 
     Image(
-        painter = if (state == AvatarState.Show) {
-            painterResource(id = avatar)
+        painter = if (state == Show) {
+            rememberImagePainter(data = avatar)
         } else {
             painterResource(
                 id = R.drawable.add_avatar
@@ -25,5 +27,27 @@ fun AvatarProfile(
         contentDescription = "",
         modifier = modifier
     )
+
+}
+
+@Composable
+fun AvatarProfile(
+    modifier: Modifier = Modifier,
+    avatar: Int,
+    state: AvatarState = Show,
+) {
+
+    Image(
+        painter = if (state == Show) {
+            rememberImagePainter(data = avatar)
+        } else {
+            painterResource(
+                id = R.drawable.add_avatar
+            )
+        },
+        contentDescription = "",
+        modifier = modifier
+    )
+
 }
 
