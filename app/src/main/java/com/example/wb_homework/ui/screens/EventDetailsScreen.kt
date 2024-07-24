@@ -1,6 +1,5 @@
 package com.example.wb_homework.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,42 +19,53 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
-import com.example.wb_homework.ui.ui_kit.OverlappingImageList
+import com.example.domain.entities.Event
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Event
+import com.example.wb_homework.screen_states.EventDetailsScreenState
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.MapImage
 import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.MyChipRow
-import com.example.wb_homework.ui.ui_kit.PrimaryHoverButton
+import com.example.wb_homework.ui.ui_kit.OverlappingImageList
 import com.example.wb_homework.ui.ui_kit.PrimaryInitialButton
 import com.example.wb_homework.ui.ui_kit.SecondaryInitialButton
 import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.viewmodels.EventDetailsViewModel
+import org.koin.androidx.compose.koinViewModel
 
-fun getImageList(): List<Int> = mutableListOf<Int>().apply {
-    repeat(20) {
-        add(R.drawable.person_on_meet)
+
+@Composable
+fun EventDetailsScreen(
+    onBackPressedClickListener: () -> Unit,
+) {
+    val viewModel: EventDetailsViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(EventDetailsScreenState.Initial)
+    viewModel.loadEvent()
+    when (val currentState = screenState.value) {
+        is EventDetailsScreenState.EventDetails -> {
+            EventDetails(event = currentState.event) {
+                onBackPressedClickListener()
+            }
+        }
+
+        EventDetailsScreenState.Initial -> {}
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventDetailsScreen(
+fun EventDetails(
+    event: Event,
     onBackPressedClickListener: () -> Unit,
 ) {
-
-    val event = Event()
-    val mapUrl =
-        "https://gas-kvas.com/grafic/uploads/posts/2024-01/gas-kvas-com-p-karta-mira-na-prozrachnom-fone-dlya-detei-3.jpg"
     val goingToEvent = remember {
         mutableStateOf(false)
     }
     Scaffold(
         containerColor = Color.White,
         topBar = {
-
             TopAppBar(
                 colors = TopAppBarColors(
                     containerColor = Color.White,
@@ -66,7 +76,7 @@ fun EventDetailsScreen(
 
                 ),
                 title = {
-                    Subheading1(text = "Developer meeting")
+                    Subheading1(text = event.eventName)
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackPressedClickListener() }) {
@@ -75,7 +85,7 @@ fun EventDetailsScreen(
                 },
                 actions = {
                     if (goingToEvent.value) {
-                        IconButton(onClick = { onBackPressedClickListener() }) {
+                        IconButton(onClick = { }) {
                             ImageIcon(iconResId = R.drawable.check_big)
                         }
                     }
@@ -90,7 +100,6 @@ fun EventDetailsScreen(
                 .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 24.dp)
                 .padding(bottom = 72.dp),
-
             ) {
             BodyText1(
                 text = stringResource(
@@ -104,17 +113,17 @@ fun EventDetailsScreen(
             Spacer(modifier = Modifier.height(2.dp))
             MyChipRow(event = event)
             Spacer(modifier = Modifier.height(12.dp))
-            MapImage(mapUrl)
+            MapImage(event.mapUrl)
             Spacer(modifier = Modifier.height(20.dp))
             MetaData1(text = LoremIpsum().values.first().take(50))
             Spacer(modifier = Modifier.height(20.dp))
-            OverlappingImageList(images = getImageList())
+            OverlappingImageList(images = event.imageList)
             Spacer(modifier = Modifier.weight(1f))
             if (goingToEvent.value) {
                 SecondaryInitialButton(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "Схожу в другой раз!"
+                    text = stringResource(id = R.string.another_time)
                 ) {
                     goingToEvent.value = false
                 }
@@ -122,13 +131,11 @@ fun EventDetailsScreen(
                 PrimaryInitialButton(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "Пойду на встречу!"
+                    text = stringResource(id = R.string.going_to_event)
                 ) {
                     goingToEvent.value = true
                 }
-
             }
-
         }
     }
 }

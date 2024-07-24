@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,14 +27,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.ui.theme.NeutralLine
-import com.example.wb_homework.ui.theme.PurpleDark
-import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.Heading1
 
 @Composable
 fun CustomCodeField(
     modifier: Modifier = Modifier,
-    onComplete: (Boolean) -> Unit,
+    onComplete: () -> Unit,
 ) {
 
     var code by remember { mutableStateOf("") }
@@ -46,7 +43,6 @@ fun CustomCodeField(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         keyboardController?.show()
-
     }
 
     Column(
@@ -81,14 +77,12 @@ fun CustomCodeField(
     TextField(
         value = code,
         onValueChange = {
-            if (it.length <= CODE_LENGTH && it.all { char -> char.isDigit() }) {
+            if (it.length <= CODE_LENGTH) {
                 code = it
-                if (code.length == CODE_LENGTH) {
-                    keyboardController?.hide()
-                    onComplete(true)
-                } else {
-                    onComplete(false)
-                }
+            }
+            if (code.length == CODE_LENGTH) {
+                keyboardController?.hide()
+                onComplete()
             }
         },
         modifier = Modifier

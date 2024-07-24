@@ -21,20 +21,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.entities.AvatarState.Edit
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.AvatarState
 import com.example.wb_homework.ui.ui_kit.AvatarProfile
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.InputText
 import com.example.wb_homework.ui.ui_kit.PrimaryDisabledButton
 import com.example.wb_homework.ui.ui_kit.PrimaryInitialButton
 import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.viewmodels.CreateAccountViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateAccountScreen(
     launchEventScreen: () -> Unit,
 ) {
+    val viewModel: CreateAccountViewModel = koinViewModel()
     var onCompletePhone by remember {
         mutableStateOf(false)
     }
@@ -72,7 +75,7 @@ fun CreateAccountScreen(
             AvatarProfile(
                 avatar = R.drawable.avatar,
                 modifier = Modifier.size(100.dp),
-                state = AvatarState.Edit
+                state = Edit
             )
             Spacer(modifier = Modifier.height(30.dp))
             InputText(

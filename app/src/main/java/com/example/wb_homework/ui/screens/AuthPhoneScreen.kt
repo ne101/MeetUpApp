@@ -28,14 +28,20 @@ import com.example.wb_homework.ui.ui_kit.Heading2
 import com.example.wb_homework.ui.ui_kit.ImageIcon
 import com.example.wb_homework.ui.ui_kit.PrimaryDisabledButton
 import com.example.wb_homework.ui.ui_kit.PrimaryInitialButton
+import com.example.wb_homework.viewmodels.AuthPhoneViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthPhoneScreen(
-    launchAuthCodeScreen: () -> Unit,
+    launchAuthCodeScreen: (String) -> Unit
 ) {
+    val viewModel: AuthPhoneViewModel = koinViewModel()
     var activeButton by remember {
         mutableStateOf(false)
+    }
+    var currentPhone by remember {
+        mutableStateOf("")
     }
     Scaffold(
         containerColor = Color.White,
@@ -90,16 +96,21 @@ fun AuthPhoneScreen(
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(50.dp))
-            CustomPhoneField {
-                activeButton = it
-            }
+            CustomPhoneField(
+                onComplete = {
+                    activeButton = it
+                },
+                phoneNumber = {
+                    currentPhone = it
+                },
+            )
             Spacer(modifier = Modifier.height(70.dp))
             if (activeButton) {
                 PrimaryInitialButton(
                     text = stringResource(id = R.string.next),
                     modifier = Modifier.fillMaxWidth(),
                     onButtonClickListener = {
-                        launchAuthCodeScreen()
+                        launchAuthCodeScreen(currentPhone)
                     }
                 )
             } else {

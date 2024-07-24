@@ -10,10 +10,24 @@
     <string name="input_phone">Введите номер телефона</string>
     <string name="instruction_about_auth">Мы вышлем код подтверждения на указаный номер</string>
     <string name="next">Продолжить</string>
-    <string name="send_code">Отправили код на номер +7 999 999-99-99</string>
+    <string name="send_code">Отправили код на номер </string>
     <string name="input_code">Введите код</string>
     <string name="name">Имя (обязательно)</string>
     <string name="surname">Фамилия (опционально)</string>
     <string name="save">Сохранить</string>
     <string name="recall_code">Запросить код повторно</string>
+    <string name="all_meets">ВСЕ ВСТРЕЧИ</string>
+    <string name="active_meets">АКТИВНЫЕ</string>
+    <string name="planned">ЗАПЛАНИРОВАНО</string>
+    <string name="already_passed">УЖЕ ПРОШЛИ</string>
+    <string name="community_events">Встречи сообщества</string>
+    <string name="another_time">Схожу в другой раз!</string>
+    <string name="going_to_event">Пойду на встречу!</string>
+    <string name="theme">Тема</string>
+    <string name="notification">Уведомления</string>
+    <string name="privacy">Безопасность</string>
+    <string name="memory_and_res">Память и ресурсы</string>
+    <string name="help">Помощь</string>
+    <string name="invate_friend">Пригласи друга</string>
+    <string name="phone_number">+7 %s</string>
 </resources>

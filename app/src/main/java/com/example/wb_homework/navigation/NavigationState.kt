@@ -19,6 +19,10 @@ class NavigationState(
             restoreState = true
         }
     }
+
+    fun navigateToAuthCodeScreen(phoneNumber: String) {
+        navHostController.navigate(Screen.AuthCode.getRouteWithArgs(phoneNumber))
+    }
 }
 
 @Composable

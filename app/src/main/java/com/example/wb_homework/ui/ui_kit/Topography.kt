@@ -122,7 +122,7 @@ fun BodyText2(
         fontWeight = FontWeight.Normal,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
     )
 }
 

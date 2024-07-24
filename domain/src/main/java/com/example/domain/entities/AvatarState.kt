@@ -1,4 +1,4 @@
-package com.example.wb_homework.domain
+package com.example.domain.entities
 
 enum class AvatarState {
     Show, Edit

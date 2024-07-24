@@ -18,25 +18,55 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.entities.Profile
 import com.example.wb_homework.R
-import com.example.wb_homework.domain.Profile
-import com.example.wb_homework.ui.theme.PhoneColor
+import com.example.wb_homework.screen_states.MoreScreenState
+import com.example.wb_homework.ui.theme.NeutralLine
 import com.example.wb_homework.ui.ui_kit.BodyText1
 import com.example.wb_homework.ui.ui_kit.ImageIcon
-import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.ProfileCard
 import com.example.wb_homework.ui.ui_kit.Subheading1
+import com.example.wb_homework.viewmodels.MoreViewModel
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreScreen(
     onProfileClickListener: () -> Unit,
     onMyMeetsClickListener: () -> Unit,
-    onThemeClickListener: () -> Unit
+    onThemeClickListener: () -> Unit,
+) {
+    val viewModel: MoreViewModel = koinViewModel()
+    val screenState = viewModel.getScreenState().collectAsState(MoreScreenState.Initial)
+    viewModel.loadProfileInfo()
+    when (val currentState = screenState.value) {
+        is MoreScreenState.ProfileInfo -> {
+            MoreComponent(
+                profile = currentState.profile,
+                onProfileClickListener = { onProfileClickListener() },
+                onMyMeetsClickListener = { onMyMeetsClickListener() },
+                onThemeClickListener = { onThemeClickListener() }
+            )
+        }
+        MoreScreenState.Initial -> {
+
+        }
+    }
+
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MoreComponent(
+    profile: Profile,
+    onProfileClickListener: () -> Unit,
+    onMyMeetsClickListener: () -> Unit,
+    onThemeClickListener: () -> Unit,
 ) {
     Scaffold(
         containerColor = Color.White,
@@ -51,7 +81,7 @@ fun MoreScreen(
 
                 ),
                 title = { Subheading1(text = stringResource(id = R.string.more)) },
-                navigationIcon = { Spacer(modifier = Modifier.width(24.dp))}
+                navigationIcon = { Spacer(modifier = Modifier.width(24.dp)) }
             )
         }
     ) { padding ->
@@ -60,7 +90,7 @@ fun MoreScreen(
                 .padding(padding)
                 .fillMaxWidth()
         ) {
-            ProfileCard(Profile()) {
+            ProfileCard(profile) {
                 onProfileClickListener()
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -73,43 +103,43 @@ fun MoreScreen(
             Spacer(modifier = Modifier.height(16.dp))
             ElementCardForMoreScreen(
                 icon = R.drawable.sun_icon,
-                title = "Тема"
+                title = stringResource(id = R.string.theme)
             ) {
                 onThemeClickListener()
             }
             Spacer(modifier = Modifier.height(8.dp))
             ElementCardForMoreScreen(
                 icon = R.drawable.notification_icon,
-                title = "Уведомления"
+                title = stringResource(id = R.string.notification)
             ) {
 
             }
             Spacer(modifier = Modifier.height(8.dp))
             ElementCardForMoreScreen(
                 icon = R.drawable.privacy_icon,
-                title = "Безопасность"
+                title = stringResource(id = R.string.privacy)
             ) {
 
             }
             ElementCardForMoreScreen(
                 icon = R.drawable.folder_icon,
-                title = "Память и ресурсы"
+                title = stringResource(id = R.string.memory_and_res)
             ) {
 
             }
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                color = Color(0xFFEDEDED)
+                color = NeutralLine
             )
             ElementCardForMoreScreen(
                 icon = R.drawable.help_icon,
-                title = "Помощь"
+                title = stringResource(id = R.string.help)
             ) {
 
             }
             ElementCardForMoreScreen(
                 icon = R.drawable.mail_icon,
-                title = "Пригласи друга",
+                title = stringResource(id = R.string.invate_friend),
             ) {
 
             }
@@ -123,7 +153,7 @@ fun ElementCardForMoreScreen(
     icon: Int,
     title: String,
     modifier: Modifier = Modifier,
-    onItemClickListener: () -> Unit
+    onItemClickListener: () -> Unit,
 ) {
     Card(
         modifier = modifier.clickable { onItemClickListener() },
@@ -133,9 +163,11 @@ fun ElementCardForMoreScreen(
             containerColor = Color.White, disabledContainerColor = Color.White
         )
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
             ImageIcon(iconResId = icon, modifier = Modifier.size(24.dp))
             Spacer(modifier = Modifier.width(8.dp))
             BodyText1(text = title, modifier = Modifier.weight(1f))

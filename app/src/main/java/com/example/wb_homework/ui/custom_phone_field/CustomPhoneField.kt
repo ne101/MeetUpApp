@@ -4,21 +4,13 @@ package com.example.wb_homework.ui.custom_phone_field
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,15 +19,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.wb_homework.R
-import com.example.wb_homework.ui.custom_code_field.CustomCodeField
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.theme.OffWhite
 import com.example.wb_homework.ui.ui_kit.BodyText1
@@ -43,9 +30,10 @@ import com.example.wb_homework.ui.ui_kit.ImageIcon
 
 @Composable
 fun CustomPhoneField(
-    onComplete: (Boolean) -> Unit
+    onComplete: (Boolean) -> Unit,
+    phoneNumber: (String) -> Unit
 ) {
-    var phoneNumber by remember { mutableStateOf("") }
+    var currentPhoneNumber by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val mask = "000 000-00-00"
     val maskNumber = '0'
@@ -64,16 +52,17 @@ fun CustomPhoneField(
             BodyText1(text = "+7", color = GrayDefault)
         }
         BasicTextField(
-            value = phoneNumber,
+            value = currentPhoneNumber,
             onValueChange = { number ->
-                phoneNumber = number.take(
+                currentPhoneNumber = number.take(
                     mask.count {
                         it == maskNumber
                     }
                 )
-                if (phoneNumber.length == PHONE_LENGTH) {
+                if (currentPhoneNumber.length == PHONE_LENGTH) {
                     keyboardController?.hide()
                     onComplete(true)
+                    phoneNumber(currentPhoneNumber)
                 } else {
                     onComplete(false)
                 }
@@ -93,7 +82,7 @@ fun CustomPhoneField(
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
-                    if (phoneNumber.isEmpty()) {
+                    if (currentPhoneNumber.isEmpty()) {
                         BodyText1(
                             text = mask,
                             color = GrayDefault
@@ -105,6 +94,5 @@ fun CustomPhoneField(
 
         )
     }
-
 }
 const val PHONE_LENGTH = 10
