@@ -14,8 +14,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.domain.entities.Community
+import com.example.wb_homework.R
 
 
 @Composable
@@ -42,7 +45,13 @@ fun CommunityCard(
                     Spacer(modifier = Modifier.height(4.dp))
                     BodyText1(text = community.communityName)
                     Spacer(modifier = Modifier.height(4.dp))
-                    MetaData1(text = community.countSubscribers, color = Color(0xFFADB5BD))
+                    MetaData1(
+                        text = stringResource(
+                            id = R.string.count_subscribers,
+                            community.countSubscribers.toString()
+                        ),
+                        color = Color(0xFFADB5BD)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))

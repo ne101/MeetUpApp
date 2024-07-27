@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel {
-        AllEventsViewModel(get())
+        AllEventsViewModel(get(),get())
     }
     viewModel {
        AuthCodeViewModel()
@@ -39,7 +39,7 @@ val appModule = module {
         MoreViewModel(get())
     }
     viewModel {
-        MyEventsViewModel(get())
+        MyEventsViewModel(get(), get())
     }
     viewModel {
         ProfileViewModel(get())

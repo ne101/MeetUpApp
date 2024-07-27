@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 fun OverlappingImageList(images: List<String>, modifier: Modifier = Modifier) {
     Box(modifier = modifier.horizontalScroll(rememberScrollState())) {
         Row(horizontalArrangement = Arrangement.spacedBy((-8).dp)) {
-            images.take(5).asReversed().forEach { image ->
+            images.take(VISIBLE_IMAGE_COUNT).asReversed().forEach { image ->
                 AvatarForCard(image)
             }
-            if (images.size > 5) {
+            if (images.size > VISIBLE_IMAGE_COUNT) {
                 Spacer(modifier = Modifier.width(24.dp))
                 BodyText1(
-                    text = "+${images.size - 5}",
+                    text = "+${images.size - VISIBLE_IMAGE_COUNT}",
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                 )
@@ -30,4 +30,6 @@ fun OverlappingImageList(images: List<String>, modifier: Modifier = Modifier) {
         }
     }
 }
+
+const val VISIBLE_IMAGE_COUNT = 5
 

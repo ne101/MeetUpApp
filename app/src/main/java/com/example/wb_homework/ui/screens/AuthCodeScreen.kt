@@ -32,8 +32,8 @@ import org.koin.androidx.compose.koinViewModel
 fun AuthCodeScreen(
     phoneNumber: String,
     launchCreateProfileScreen: () -> Unit,
+    viewModel: AuthCodeViewModel = koinViewModel()
 ) {
-    val viewModel: AuthCodeViewModel = koinViewModel()
     val formattedPhone = StringBuilder(phoneNumber)
         .insert(3, " ")
         .insert(7, "-")

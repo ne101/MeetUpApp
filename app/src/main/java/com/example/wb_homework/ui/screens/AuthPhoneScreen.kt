@@ -34,9 +34,9 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthPhoneScreen(
-    launchAuthCodeScreen: (String) -> Unit
+    launchAuthCodeScreen: (String) -> Unit,
+    viewModel: AuthPhoneViewModel = koinViewModel()
 ) {
-    val viewModel: AuthPhoneViewModel = koinViewModel()
     var activeButton by remember {
         mutableStateOf(false)
     }

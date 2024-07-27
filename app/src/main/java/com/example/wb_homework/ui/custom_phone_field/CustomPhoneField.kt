@@ -20,8 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PlatformImeOptions
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.example.wb_homework.R
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.theme.OffWhite
@@ -59,7 +62,7 @@ fun CustomPhoneField(
                         it == maskNumber
                     }
                 )
-                if (currentPhoneNumber.length == PHONE_LENGTH) {
+                if (currentPhoneNumber.length == PHONE_LENGTH && currentPhoneNumber.isDigitsOnly()) {
                     keyboardController?.hide()
                     onComplete(true)
                     phoneNumber(currentPhoneNumber)
@@ -67,8 +70,9 @@ fun CustomPhoneField(
                     onComplete(false)
                 }
             },
+            singleLine = true,
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Phone
+                keyboardType = KeyboardType.Number,
             ),
             visualTransformation = PhoneVisualTransformation(mask, maskNumber),
             decorationBox = {
@@ -85,7 +89,7 @@ fun CustomPhoneField(
                     if (currentPhoneNumber.isEmpty()) {
                         BodyText1(
                             text = mask,
-                            color = GrayDefault
+                            color = GrayDefault,
                         )
                     }
                     it()

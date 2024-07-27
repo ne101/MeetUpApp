@@ -1,45 +1,34 @@
 package com.example.wb_homework.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.domain.entities.Event
-import com.example.domain.usecases.GetEventListUseCase
-import com.example.wb_homework.screen_states.MyEventsScreenState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.example.domain.usecases.GetPassedEventListUseCase
+import com.example.domain.usecases.GetPlannedEventListUseCase
+import com.example.wb_homework.screen_states.ActiveEventsScreenState
+import com.example.wb_homework.screen_states.PassedEventsScreenState
+import com.example.wb_homework.screen_states.PlannedEventsScreenState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MyEventsViewModel(
-    private val getEventListUseCase: GetEventListUseCase
+    private val getPlannedEventListUseCase: GetPlannedEventListUseCase,
+    private val getPassedEventListUseCase: GetPassedEventListUseCase
 ) : ViewModel() {
-    private val _screenState = MutableStateFlow<MyEventsScreenState>(MyEventsScreenState.Initial)
-    private val screenState = _screenState.asStateFlow()
-
-    fun getScreenState(): StateFlow<MyEventsScreenState> {
-        return screenState
+    private val _plannedEventsListScreenState = getPlannedEventListUseCase.execute().map {
+        PlannedEventsScreenState.PlannedEventsList(it)
     }
 
-    private var plannedEventList: List<Event>? = null
-    private var passedEventList: List<Event>? = null
-
-    fun loadPlannedEventList() {
-        if (plannedEventList == null) {
-            plannedEventList = getEventListUseCase.invoke().filter {
-                !it.finished
-            }
-        }
-        _screenState.value = MyEventsScreenState.PlannedEventList(
-            plannedEventList ?: emptyList()
-        )
+    private val _passedEventsListState = getPassedEventListUseCase.execute().map {
+        PassedEventsScreenState.PassedEventsList(it)
     }
 
-    fun loadPassedEventList() {
-        if (passedEventList == null) {
-            passedEventList = getEventListUseCase.invoke().filter {
-                it.finished
-            }
-        }
-        _screenState.value = MyEventsScreenState.PassedEventList(
-            passedEventList ?: emptyList()
-        )
+    private val plannedEventsListScreenState = _plannedEventsListScreenState
+    private val passedEventsListState = _passedEventsListState
+
+    fun getPlannedEventsListScreenState(): Flow<PlannedEventsScreenState> {
+        return plannedEventsListScreenState
+    }
+
+    fun getPassedEventsListScreenState(): Flow<PassedEventsScreenState> {
+        return passedEventsListState
     }
 }

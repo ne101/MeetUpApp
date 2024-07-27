@@ -31,7 +31,6 @@ import org.koin.androidx.compose.koinViewModel
 fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
     val viewModel: CommunityViewModel = koinViewModel()
     val screenState = viewModel.getScreenState().collectAsState(CommunityScreenState.Initial)
-    viewModel.loadCommunityList()
     when (val currentState = screenState.value) {
         is CommunityScreenState.CommunityList -> {
             CommunityColumn(

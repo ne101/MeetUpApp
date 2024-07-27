@@ -36,8 +36,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CreateAccountScreen(
     launchEventScreen: () -> Unit,
+    viewModel: CreateAccountViewModel = koinViewModel()
 ) {
-    val viewModel: CreateAccountViewModel = koinViewModel()
     var onCompletePhone by remember {
         mutableStateOf(false)
     }

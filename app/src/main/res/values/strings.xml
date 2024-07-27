@@ -30,4 +30,5 @@
     <string name="help">Помощь</string>
     <string name="invate_friend">Пригласи друга</string>
     <string name="phone_number">+7 %s</string>
+    <string name="count_subscribers">%s человек</string>
 </resources>

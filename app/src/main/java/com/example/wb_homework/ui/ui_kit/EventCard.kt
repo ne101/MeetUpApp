@@ -45,7 +45,7 @@ fun EventCard(
                         .weight(1f)
                         .padding(bottom = 12.dp)
                 ) {
-                    BodyText1(text = event.eventName)
+                    BodyText1(text = event.eventName + event.id.toString())
                     Spacer(modifier = Modifier.height(2.dp))
                     MetaData1(
                         text = LocalContext.current.getString(

@@ -1,42 +1,34 @@
 package com.example.wb_homework.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.domain.entities.Event
+import com.example.domain.usecases.GetActiveEventListUseCase
 import com.example.domain.usecases.GetEventListUseCase
+import com.example.wb_homework.screen_states.ActiveEventsScreenState
 import com.example.wb_homework.screen_states.AllEventsScreenState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AllEventsViewModel(
-    private val getEventListUseCase: GetEventListUseCase,
+    getActiveEventListUseCase: GetActiveEventListUseCase,
+    getEventListUseCase: GetEventListUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<AllEventsScreenState>(AllEventsScreenState.Initial)
-    private val screenState = _screenState.asStateFlow()
-
-    private var allEvents: List<Event>? = null
-    private var activeEvents: List<Event>? = null
-
-    fun getScreenState(): StateFlow<AllEventsScreenState> {
-        return screenState
+    private val _eventsListScreenState = getEventListUseCase.execute().map {
+        AllEventsScreenState.AllEventList(it)
     }
 
-    fun loadAllEvents() {
-        if (allEvents == null) {
-            allEvents = getEventListUseCase.invoke()
-        }
-        _screenState.value = AllEventsScreenState.AllEventList(allEvents ?: emptyList())
+    private val _activeEventsListState = getActiveEventListUseCase.execute().map {
+        ActiveEventsScreenState.ActiveEventList(it)
     }
 
-    fun loadActiveEvents() {
-        if (activeEvents == null) {
-            activeEvents = getEventListUseCase.invoke().filter {
-                !it.finished
-            }
-        }
-        _screenState.value = AllEventsScreenState.ActiveEventList(
-            activeEvents ?: emptyList()
-        )
+    private val eventsListScreenState = _eventsListScreenState
+    private val activeEventsListState = _activeEventsListState
+
+    fun getAllEventsListScreenState(): Flow<AllEventsScreenState> {
+        return eventsListScreenState
+    }
+
+    fun getActiveEventsScreenState(): Flow<ActiveEventsScreenState> {
+        return activeEventsListState
     }
 }

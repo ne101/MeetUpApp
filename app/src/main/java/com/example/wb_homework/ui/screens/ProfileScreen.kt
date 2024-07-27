@@ -38,10 +38,9 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileScreen(
     onBackPressed: () -> Unit,
+    viewModel: ProfileViewModel = koinViewModel()
 ) {
-    val viewModel: ProfileViewModel = koinViewModel()
     val screenState = viewModel.getScreenState().collectAsState(ProfileScreenState.Initial)
-    viewModel.loadProfile()
     when (val currentState = screenState.value) {
         is ProfileScreenState.ProfileInfo -> {
             ProfileComponent(profile = currentState.profile) {
