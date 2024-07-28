@@ -19,7 +19,6 @@ class GetActiveEventListUseCaseTest {
             useCase.execute().collect {
                 eventList = it
             }
-            println(eventList)
             TestCase.assertTrue(eventList.isNotEmpty())
         }
     }
