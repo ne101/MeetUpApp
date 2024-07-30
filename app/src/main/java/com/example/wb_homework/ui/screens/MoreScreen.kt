@@ -39,10 +39,9 @@ fun MoreScreen(
     onProfileClickListener: () -> Unit,
     onMyMeetsClickListener: () -> Unit,
     onThemeClickListener: () -> Unit,
+    viewModel: MoreViewModel = koinViewModel()
 ) {
-    val viewModel: MoreViewModel = koinViewModel()
     val screenState = viewModel.getScreenState().collectAsState(MoreScreenState.Initial)
-    viewModel.loadProfileInfo()
     when (val currentState = screenState.value) {
         is MoreScreenState.ProfileInfo -> {
             MoreComponent(

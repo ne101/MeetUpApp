@@ -39,17 +39,15 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun EventDetailsScreen(
     onBackPressedClickListener: () -> Unit,
+    viewModel: EventDetailsViewModel = koinViewModel()
 ) {
-    val viewModel: EventDetailsViewModel = koinViewModel()
     val screenState = viewModel.getScreenState().collectAsState(EventDetailsScreenState.Initial)
-    viewModel.loadEvent()
     when (val currentState = screenState.value) {
         is EventDetailsScreenState.EventDetails -> {
             EventDetails(event = currentState.event) {
                 onBackPressedClickListener()
             }
         }
-
         EventDetailsScreenState.Initial -> {}
     }
 }

@@ -1,5 +1,6 @@
 package com.example.wb_homework.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,10 +36,9 @@ import org.koin.androidx.compose.koinViewModel
 fun CommunityDetailsScreen(
     onBackPressedClickListener: () -> Unit,
     onEventCardClickListener: () -> Unit,
+    viewModel: CommunityDetailsViewModel = koinViewModel()
 ) {
-    val viewModel: CommunityDetailsViewModel = koinViewModel()
     val screenState = viewModel.getScreenState().collectAsState(CommunityDetailsScreenState.Initial)
-    viewModel.loadCommunity()
     when (val currentState = screenState.value) {
         is CommunityDetailsScreenState.CommunityDetails -> {
             CommunityDetails(

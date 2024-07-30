@@ -90,8 +90,7 @@ fun CustomCodeField(
             .alpha(0f),
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
+            keyboardType = KeyboardType.Number
         ),
         keyboardActions = KeyboardActions(
             onDone = {

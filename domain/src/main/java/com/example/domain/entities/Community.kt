@@ -4,7 +4,7 @@ import kotlin.random.Random
 
 data class Community(
     val communityName: String = "Designa",
-    val countSubscribers: String = "10000 человек",
+    val countSubscribers: Int = 10000,
     val avatarCommunity: String = IMAGE_URL,
     val id: Int = 0,
     val events: List<Event> = generationEvent,
