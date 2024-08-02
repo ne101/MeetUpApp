@@ -7,13 +7,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface Repository {
-    fun getEvent(): Flow<Event>
+    fun getEvent(id: Int): Flow<Event>
     fun getEventList(): Flow<List<Event>>
     fun getActiveEventList(): Flow<List<Event>>
     fun getAllEventList(): Flow<List<Event>>
     fun getPlannedEventList(): Flow<List<Event>>
     fun getPassedEventList(): Flow<List<Event>>
-    fun getCommunity(): Flow<Community>
+    fun getCommunity(id: Int): Flow<Community>
     fun getCommunityList(): Flow<List<Community>>
-    fun getProfile(): Flow<Profile>
+    fun getProfile(id: Int): Flow<Profile>
+    suspend fun saveProfile(profile: Profile)
+    suspend fun deleteProfile(id: Int)
+    fun getMyEvent(id: Int): Flow<Event>
+    fun getMyEventList(): Flow<List<Event>>
+    suspend fun addMyEvent(event: Event)
+    suspend fun deleteMyEvent(id: Int)
 }

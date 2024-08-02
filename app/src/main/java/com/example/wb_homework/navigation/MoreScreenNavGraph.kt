@@ -9,7 +9,7 @@ fun NavGraphBuilder.moreScreenNavGraph(
     moreScreenContent: @Composable () -> Unit,
     myEventsScreenContent: @Composable () -> Unit,
     profileEventScreenContent: @Composable () -> Unit,
-    detailEventFromMoreScreenContent: @Composable () -> Unit,
+    detailEventFromMoreScreenContent: @Composable (Int) -> Unit,
     themeScreenContent: @Composable () -> Unit,
 ) {
     navigation(
@@ -29,7 +29,8 @@ fun NavGraphBuilder.moreScreenNavGraph(
         }
 
         composable(Screen.DetailEventFromMoreScreen.route) {
-            detailEventFromMoreScreenContent()
+            val eventId = it.arguments?.getString(Screen.DetailEventFromMoreScreen.KEY_ID) ?: ""
+            detailEventFromMoreScreenContent(eventId.toInt())
         }
 
         composable(Screen.Theme.route) {

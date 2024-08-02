@@ -13,11 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.entities.Community
 import com.example.wb_homework.R
 import com.example.wb_homework.screen_states.CommunityScreenState
@@ -28,15 +28,14 @@ import com.example.wb_homework.viewmodels.CommunityViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
+internal fun CommunityScreen(onClickCommunityCardListener: (Community) -> Unit) {
     val viewModel: CommunityViewModel = koinViewModel()
-    val screenState = viewModel.getScreenState().collectAsState(CommunityScreenState.Initial)
+    val screenState = viewModel.getScreenStateFlow()
+        .collectAsStateWithLifecycle()
     when (val currentState = screenState.value) {
         is CommunityScreenState.CommunityList -> {
-            CommunityColumn(
-                currentState.communityList
-            ) {
-                onClickCommunityCardListener()
+            CommunityColumn(currentState.communityList) { community ->
+                onClickCommunityCardListener(community)
             }
         }
 
@@ -46,9 +45,9 @@ fun CommunityScreen(onClickCommunityCardListener: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityColumn(
+private fun CommunityColumn(
     communities: List<Community>,
-    onClickCommunityCardListener: () -> Unit,
+    onClickCommunityCardListener: (Community) -> Unit,
 ) {
     Scaffold(
         containerColor = Color.White,
@@ -84,12 +83,9 @@ fun CommunityColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(items = communities, key = { it.id }) {
-                    CommunityCard(
-                        community = it,
-                        onClickCommunityCardListener = {
-                            onClickCommunityCardListener()
-                        }
-                    )
+                    CommunityCard(community = it) { community ->
+                        onClickCommunityCardListener(community)
+                    }
                 }
 
             }

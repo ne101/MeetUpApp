@@ -1,7 +1,8 @@
 package com.example.wb_homework.ui.screens
 
-import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,18 +22,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.domain.entities.Event
 import com.example.wb_homework.R
 import com.example.wb_homework.screen_states.ActiveEventsScreenState
 import com.example.wb_homework.screen_states.AllEventsScreenState
+import com.example.wb_homework.screen_states.TabIndexState
 import com.example.wb_homework.ui.theme.PurpleDefault
 import com.example.wb_homework.ui.theme.tabColor
 import com.example.wb_homework.ui.ui_kit.BodyText1
@@ -45,20 +44,15 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AllEventsScreen(
+internal fun AllEventsScreen(
     onAddPressed: () -> Unit,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
     viewModel: AllEventsViewModel = koinViewModel(),
 ) {
-    val allEventsScreenState = viewModel.getAllEventsListScreenState()
-        .collectAsState(
-            AllEventsScreenState.Initial
-        )
-    val activeEventsScreenState = viewModel.getActiveEventsScreenState()
-        .collectAsState(
-            ActiveEventsScreenState.Initial
-        )
-    Log.d("AllEventsScreen", allEventsScreenState.value.toString())
+    val allEventsScreenState = viewModel.getAllEventsListScreenStateFlow()
+        .collectAsStateWithLifecycle()
+    val activeEventsScreenState = viewModel.getActiveEventsScreenStateFlow()
+        .collectAsStateWithLifecycle()
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -85,73 +79,101 @@ fun AllEventsScreen(
             )
         }
     ) { padding ->
-        var state by rememberSaveable { mutableIntStateOf(FIRST_TAB) }
+
+        val tabIndexState = viewModel.getCurrentTabIndexFlow()
+            .collectAsStateWithLifecycle()
         val titles = listOf(
             stringResource(id = R.string.all_meets),
             stringResource(id = R.string.active_meets)
         )
-
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 24.dp)
-        ) {
-            SearchView()
-            Spacer(modifier = Modifier.width(16.dp))
-            SecondaryTabRow(
-                selectedTabIndex = state,
-                containerColor = Color.White,
-                indicator = {
-                    SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(state),
-                        color = PurpleDefault
-                    )
-                },
-                divider = {
-                    HorizontalDivider(thickness = 0.dp, color = Color.White)
-                }
-            ) {
-                titles.forEachIndexed { index, title ->
-                    Tab(
-                        selected = state == index,
-                        onClick = {
-                            state = index
-                        },
-                        text = {
-                            if (state == index) {
-                                BodyText1(text = title, color = PurpleDefault)
-
-                            } else {
-                                BodyText1(text = title, color = tabColor)
-                            }
-                        }
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            if (state == FIRST_TAB) {
-                AllEventColumns(eventsScreenState = allEventsScreenState) {
-                    onEventCardClickListener()
-                }
-            } else {
-                ActiveEventColumns(eventsScreenState = activeEventsScreenState) {
-                    onEventCardClickListener()
+        when (val currentState = tabIndexState.value) {
+            is TabIndexState.CurrentTabIndex -> {
+                EventContent(
+                    padding = padding,
+                    tabIndexState = currentState,
+                    titles = titles,
+                    viewModel = viewModel,
+                    allEventsScreenState = allEventsScreenState,
+                    activeEventsScreenState = activeEventsScreenState
+                ) { event ->
+                    onEventCardClickListener(event)
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AllEventColumns(
+private fun EventContent(
+    padding: PaddingValues,
+    tabIndexState: TabIndexState.CurrentTabIndex,
+    titles: List<String>,
+    viewModel: AllEventsViewModel,
+    allEventsScreenState: State<AllEventsScreenState>,
+    activeEventsScreenState: State<ActiveEventsScreenState>,
+    onEventCardClickListener: (Event) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(padding)
+            .fillMaxWidth()
+            .padding(vertical = 16.dp, horizontal = 24.dp)
+    ) {
+        SearchView()
+        Spacer(modifier = Modifier.width(16.dp))
+        SecondaryTabRow(
+            selectedTabIndex = tabIndexState.currentTabIndex,
+            containerColor = Color.White,
+            indicator = {
+                SecondaryIndicator(
+                    Modifier.tabIndicatorOffset(tabIndexState.currentTabIndex),
+                    color = PurpleDefault
+                )
+            },
+            divider = {
+                HorizontalDivider(thickness = 0.dp, color = Color.White)
+            }
+        ) {
+            titles.forEachIndexed { index, title ->
+                Tab(
+                    selected = tabIndexState.currentTabIndex == index,
+                    onClick = {
+                        viewModel.setCurrentTabIndex(index)
+                    },
+                    text = {
+                        if (tabIndexState.currentTabIndex == index) {
+                            BodyText1(text = title, color = PurpleDefault)
+
+                        } else {
+                            BodyText1(text = title, color = tabColor)
+                        }
+                    }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        if (tabIndexState.currentTabIndex == FIRST_TAB) {
+            AllEventColumns(eventsScreenState = allEventsScreenState) { event ->
+                onEventCardClickListener(event)
+            }
+        } else {
+            ActiveEventColumns(eventsScreenState = activeEventsScreenState) { event ->
+                onEventCardClickListener(event)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AllEventColumns(
     eventsScreenState: State<AllEventsScreenState>,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
 ) {
     when (val currentState = eventsScreenState.value) {
         is AllEventsScreenState.AllEventList -> {
-            ColumnForAllEvents(currentState = currentState) {
-                onEventCardClickListener()
+            ColumnForAllEvents(currentState = currentState) { event ->
+                onEventCardClickListener(event)
             }
         }
 
@@ -160,14 +182,14 @@ fun AllEventColumns(
 }
 
 @Composable
-fun ActiveEventColumns(
+private fun ActiveEventColumns(
     eventsScreenState: State<ActiveEventsScreenState>,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
 ) {
     when (val currentState = eventsScreenState.value) {
         is ActiveEventsScreenState.ActiveEventList -> {
-            ColumnForActiveEvents(currentState = currentState) {
-                onEventCardClickListener()
+            ColumnForActiveEvents(currentState = currentState) { event ->
+                onEventCardClickListener(event)
             }
         }
 
@@ -178,20 +200,19 @@ fun ActiveEventColumns(
 @Composable
 private fun ColumnForActiveEvents(
     currentState: ActiveEventsScreenState.ActiveEventList,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
 ) {
-    LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
+    LazyColumn(
+        modifier = Modifier.padding(bottom = 72.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         items(
             items = currentState.activeEventList,
             key = { it.id }
         ) {
-            EventCard(
-                event = it,
-                onEventCardClickListener = {
-                    onEventCardClickListener()
-                }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+            EventCard(event = it) { event ->
+                onEventCardClickListener(event)
+            }
         }
     }
 }
@@ -199,20 +220,19 @@ private fun ColumnForActiveEvents(
 @Composable
 private fun ColumnForAllEvents(
     currentState: AllEventsScreenState.AllEventList,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
 ) {
-    LazyColumn(modifier = Modifier.padding(bottom = 72.dp)) {
+    LazyColumn(
+        modifier = Modifier.padding(bottom = 72.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         items(
             items = currentState.allEventList,
             key = { it.id }
         ) {
-            EventCard(
-                event = it,
-                onEventCardClickListener = {
-                    onEventCardClickListener()
-                }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+            EventCard(event = it) { event ->
+                onEventCardClickListener(event)
+            }
         }
     }
 }

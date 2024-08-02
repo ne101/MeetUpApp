@@ -6,7 +6,7 @@ import com.example.domain.entities.Community.Companion.IMAGE_URL
 data class Event(
     val id: Int = 0,
     val eventName: String = "Developer meeting",
-    val data: String = "13.09.2024",
+    val date: String = "13.09.2024",
     val city: String = "Москва",
     val street: String = "ул.Громова, 4",
     val avatar: String = IMAGE_URL,

@@ -14,7 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.domain.entities.Community
@@ -25,7 +24,7 @@ import com.example.wb_homework.R
 fun CommunityCard(
     modifier: Modifier = Modifier,
     community: Community,
-    onClickCommunityCardListener: () -> Unit
+    onClickCommunityCardListener: (Community) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -37,13 +36,13 @@ fun CommunityCard(
             disabledContainerColor = Color.White
         )
     ) {
-        Column(modifier = Modifier.clickable { onClickCommunityCardListener() }) {
+        Column(modifier = Modifier.clickable { onClickCommunityCardListener(community) }) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 AvatarForCard(community.avatarCommunity)
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Spacer(modifier = Modifier.height(4.dp))
-                    BodyText1(text = community.communityName)
+                    BodyText1(text = community.communityName + community.id.toString())
                     Spacer(modifier = Modifier.height(4.dp))
                     MetaData1(
                         text = stringResource(

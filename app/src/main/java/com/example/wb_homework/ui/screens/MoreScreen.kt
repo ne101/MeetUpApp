@@ -18,11 +18,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.entities.Profile
 import com.example.wb_homework.R
 import com.example.wb_homework.screen_states.MoreScreenState
@@ -35,13 +35,14 @@ import com.example.wb_homework.viewmodels.MoreViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MoreScreen(
+internal fun MoreScreen(
     onProfileClickListener: () -> Unit,
     onMyMeetsClickListener: () -> Unit,
     onThemeClickListener: () -> Unit,
     viewModel: MoreViewModel = koinViewModel()
 ) {
-    val screenState = viewModel.getScreenState().collectAsState(MoreScreenState.Initial)
+    val screenState = viewModel.getScreenStateFlow()
+        .collectAsStateWithLifecycle()
     when (val currentState = screenState.value) {
         is MoreScreenState.ProfileInfo -> {
             MoreComponent(
@@ -55,13 +56,11 @@ fun MoreScreen(
 
         }
     }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreComponent(
+private fun MoreComponent(
     profile: Profile,
     onProfileClickListener: () -> Unit,
     onMyMeetsClickListener: () -> Unit,
@@ -148,7 +147,7 @@ fun MoreComponent(
 }
 
 @Composable
-fun ElementCardForMoreScreen(
+private fun ElementCardForMoreScreen(
     icon: Int,
     title: String,
     modifier: Modifier = Modifier,

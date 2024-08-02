@@ -14,8 +14,9 @@ import com.example.wb_homework.R
 fun ImageIcon(
     iconResId: Int,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center
 ) {
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+    Box(modifier = modifier, contentAlignment = contentAlignment) {
         Image(
             painter = painterResource(id = iconResId),
             contentDescription = "",

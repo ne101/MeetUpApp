@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.wb_homework.R
 import com.example.wb_homework.ui.custom_phone_field.CustomPhoneField
 import com.example.wb_homework.ui.ui_kit.BodyText2
@@ -40,9 +41,7 @@ fun AuthPhoneScreen(
     var activeButton by remember {
         mutableStateOf(false)
     }
-    var currentPhone by remember {
-        mutableStateOf("")
-    }
+    val phoneNumber = viewModel.getPhoneNumber().collectAsStateWithLifecycle()
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -101,7 +100,7 @@ fun AuthPhoneScreen(
                     activeButton = it
                 },
                 phoneNumber = {
-                    currentPhone = it
+                    viewModel.setPhoneNumber(it)
                 },
             )
             Spacer(modifier = Modifier.height(70.dp))
@@ -110,7 +109,7 @@ fun AuthPhoneScreen(
                     text = stringResource(id = R.string.next),
                     modifier = Modifier.fillMaxWidth(),
                     onButtonClickListener = {
-                        launchAuthCodeScreen(currentPhone)
+                        launchAuthCodeScreen(phoneNumber.value)
                     }
                 )
             } else {

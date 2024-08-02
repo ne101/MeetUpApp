@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.wb_homework.ui.theme.GrayDefault
@@ -26,6 +27,7 @@ fun InputText(
     textPlaceHolder: String,
     necessarily: Boolean,
     onComplete: (Boolean) -> Unit,
+    name: (String) -> Unit
 ) {
 
     var text by remember {
@@ -37,9 +39,11 @@ fun InputText(
         onValueChange = {
             text = it
             onComplete(text.trim().isNotEmpty() && necessarily)
+            name(text.replace(" ",""))
         },
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text
+            keyboardType = KeyboardType.Text,
+            capitalization = KeyboardCapitalization.Sentences
         ),
         maxLines = 1,
         decorationBox = {
