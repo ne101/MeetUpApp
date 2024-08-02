@@ -1,5 +1,6 @@
 package com.example.wb_homework.ui.ui_kit
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,15 +43,16 @@ fun ProfileCard(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Log.d("ProfileCard", "${ profile.avatar }")
             AvatarProfile(
                 avatar = profile.avatar,
                 modifier = Modifier
-                    .size(50.dp)
                     .clip(RoundedCornerShape(50.dp))
+                    .size(50.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
             Column(modifier = Modifier.weight(1f)) {
-                BodyText1(text = profile.name)
+                BodyText1(text = "${profile.name} ${profile.secondName}")
                 MetaData1(text = profile.phone, color = PhoneColor)
             }
             ImageIcon(iconResId = R.drawable.details_icon, modifier = Modifier.size(24.dp))

@@ -23,6 +23,22 @@ class NavigationState(
     fun navigateToAuthCodeScreen(phoneNumber: String) {
         navHostController.navigate(Screen.AuthCode.getRouteWithArgs(phoneNumber))
     }
+    fun navigateToCreateAccountScreen(phoneNumber: String) {
+        navHostController.navigate(Screen.CreateAccount.getRouteWithArgs(phoneNumber))
+    }
+    fun navigateToDetailCommunityScreen(communityId: Int) {
+        navHostController.navigate(Screen.DetailCommunity.getRouteWithArgs(communityId))
+    }
+    fun navigateToDetailEventScreenFromEventScreen(eventId: Int) {
+        navHostController.navigate(Screen.DetailEventFromEventScreen.getRouteWithArgs(eventId))
+    }
+    fun navigateToDetailEventScreenFromCommunityScreen(eventId: Int) {
+        navHostController.navigate(Screen.DetailEventFromCommunityScreen.getRouteWithArgs(eventId))
+    }
+    fun navigateToDetailEventScreenFromMoreScreen(eventId: Int) {
+        navHostController.navigate(Screen.DetailEventFromMoreScreen.getRouteWithArgs(eventId))
+    }
+
 }
 
 @Composable

@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,13 +30,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AuthCodeScreen(
     phoneNumber: String,
-    launchCreateProfileScreen: () -> Unit,
+    launchCreateProfileScreen: (String) -> Unit,
     viewModel: AuthCodeViewModel = koinViewModel()
 ) {
     val formattedPhone = StringBuilder(phoneNumber)
         .insert(3, " ")
         .insert(7, "-")
         .insert(10, "-")
+    val ruCodeReg = "+7"
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -91,11 +91,7 @@ fun AuthCodeScreen(
                 textAlign = TextAlign.Center
             )
             BodyText2(
-                text = LocalContext.current
-                    .getString(
-                        R.string.phone_number,
-                        formattedPhone
-                    ),
+                text = stringResource(id = R.string.phone_number, formattedPhone),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -103,7 +99,7 @@ fun AuthCodeScreen(
             )
             Spacer(modifier = Modifier.height(50.dp))
             CustomCodeField(modifier = Modifier.padding(horizontal = 24.dp)) {
-                launchCreateProfileScreen()
+                launchCreateProfileScreen("$ruCodeReg $formattedPhone")
             }
             Spacer(modifier = Modifier.height(70.dp))
             GhostInitialButton(
@@ -113,5 +109,6 @@ fun AuthCodeScreen(
             )
         }
     }
+
 }
 

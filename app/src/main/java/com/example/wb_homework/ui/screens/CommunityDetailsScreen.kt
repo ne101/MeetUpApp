@@ -1,6 +1,5 @@
 package com.example.wb_homework.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,11 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.entities.Community
 import com.example.domain.entities.Event
 import com.example.wb_homework.R
@@ -31,20 +30,25 @@ import com.example.wb_homework.ui.ui_kit.MetaData1
 import com.example.wb_homework.ui.ui_kit.Subheading1
 import com.example.wb_homework.viewmodels.CommunityDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun CommunityDetailsScreen(
+internal fun CommunityDetailsScreen(
     onBackPressedClickListener: () -> Unit,
-    onEventCardClickListener: () -> Unit,
-    viewModel: CommunityDetailsViewModel = koinViewModel()
+    onEventCardClickListener: (Event) -> Unit,
+    communityId: Int,
+    viewModel: CommunityDetailsViewModel = koinViewModel(
+        parameters = { parametersOf(communityId) }
+    )
 ) {
-    val screenState = viewModel.getScreenState().collectAsState(CommunityDetailsScreenState.Initial)
+    val screenState = viewModel.getScreenStateFlow()
+        .collectAsStateWithLifecycle()
     when (val currentState = screenState.value) {
         is CommunityDetailsScreenState.CommunityDetails -> {
             CommunityDetails(
                 community = currentState.community,
                 events = currentState.community.events,
-                onEventCardClickListener = { onEventCardClickListener() },
+                onEventCardClickListener = { onEventCardClickListener(it) },
                 onBackPressedClickListener = { onBackPressedClickListener() }
             )
         }
@@ -55,10 +59,10 @@ fun CommunityDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityDetails(
+private fun CommunityDetails(
     community: Community,
     events: List<Event>,
-    onEventCardClickListener: () -> Unit,
+    onEventCardClickListener: (Event) -> Unit,
     onBackPressedClickListener: () -> Unit,
 ) {
     Scaffold(
@@ -74,7 +78,7 @@ fun CommunityDetails(
 
                 ),
                 title = {
-                    Subheading1(text = community.communityName)
+                    Subheading1(text = community.communityName + community.id.toString())
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackPressedClickListener() }) {
@@ -110,8 +114,8 @@ fun CommunityDetails(
                 items(items = events, key = { it.id }) {
                     EventCard(
                         event = it,
-                        onEventCardClickListener = {
-                            onEventCardClickListener()
+                        onEventCardClickListener = { event ->
+                            onEventCardClickListener(event)
                         }
                     )
                 }

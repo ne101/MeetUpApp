@@ -6,7 +6,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-fun MySplashScreen() {
+internal fun MySplashScreen() {
     val composition =
         rememberLottieComposition(
             spec = LottieCompositionSpec.Asset("splash_screen3.json")

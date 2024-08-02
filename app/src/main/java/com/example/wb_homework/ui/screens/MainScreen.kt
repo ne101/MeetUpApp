@@ -3,10 +3,8 @@ package com.example.wb_homework.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,12 +27,11 @@ import com.example.wb_homework.navigation.rememberNavigationState
 import com.example.wb_homework.navigation.NavigationItem
 import com.example.wb_homework.ui.theme.TextColor
 import com.example.wb_homework.ui.ui_kit.BodyText1
-import com.example.wb_homework.ui.custom_phone_field.CustomPhoneField
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+internal fun MainScreen() {
     val navigationState = rememberNavigationState()
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -111,54 +108,54 @@ fun MainScreen() {
             eventsScreenContent = {
                 AllEventsScreen(
                     onAddPressed = {},
-                    onEventCardClickListener = {
-                        navigationState.navHostController.navigate(
-                            Screen.DetailEventFromEventScreen.route
-                        )
+                    onEventCardClickListener = { event ->
+                        navigationState.navigateToDetailEventScreenFromEventScreen(event.id)
                     }
                 )
             },
-            detailEventFromEventScreenContent = {
+            detailEventFromEventScreenContent = { eventId ->
                 EventDetailsScreen(
                     onBackPressedClickListener = {
                         navigationState.navHostController.popBackStack()
-                    }
+                    },
+                    eventId = eventId
                 )
             },
 
-            detailEventFromCommunityScreenContent = {
+            detailEventFromCommunityScreenContent = { eventId ->
                 EventDetailsScreen(
                     onBackPressedClickListener = {
                         navigationState.navHostController.popBackStack()
-                    }
+                    },
+                    eventId = eventId
                 )
             },
 
-            detailEventFromMoreScreenContent = {
+            detailEventFromMoreScreenContent = { eventId ->
                 EventDetailsScreen(
                     onBackPressedClickListener = {
                         navigationState.navHostController.popBackStack()
-                    }
+                    },
+                    eventId = eventId
                 )
             },
 
-            detailCommunityScreenContent = {
+            detailCommunityScreenContent = { communityId ->
                 CommunityDetailsScreen(
                     onBackPressedClickListener = {
                         navigationState.navHostController.popBackStack()
                     },
-                    onEventCardClickListener = {
-                        navigationState.navHostController.navigate(
-                            Screen.DetailEventFromCommunityScreen.route
-                        )
-                    }
+                    onEventCardClickListener = { event ->
+                        navigationState.navigateToDetailEventScreenFromCommunityScreen(event.id)
+                    },
+                    communityId = communityId
                 )
             },
             communityScreenContent = {
                 CommunityScreen(
                     onClickCommunityCardListener = {
-                        navigationState.navHostController.navigate(
-                            Screen.DetailCommunity.route
+                        navigationState.navigateToDetailCommunityScreen(
+                            it.id
                         )
                     }
                 )
@@ -182,7 +179,7 @@ fun MainScreen() {
                     }
                 )
             },
-            profileEventScreenContent = {
+            profileScreenContent = {
                 ProfileScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
@@ -194,13 +191,10 @@ fun MainScreen() {
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    onEventCardClickListener = {
-                        navigationState.navHostController.navigate(
-                            Screen.DetailEventFromMoreScreen.route
-                        )
-                    },
-
-                    )
+                    onEventCardClickListener = { event ->
+                        navigationState.navigateToDetailEventScreenFromMoreScreen(event.id)
+                    }
+                )
             },
             themeScreenContent = {
 
@@ -209,19 +203,18 @@ fun MainScreen() {
                 AuthPhoneScreen(
                     launchAuthCodeScreen = {
                         navigationState.navigateToAuthCodeScreen(it)
-                    },
-
+                    }
                 )
             },
             authCodeScreenContent = { phoneNumber ->
                 AuthCodeScreen(
                     launchCreateProfileScreen = {
-                        navigationState.navigateTo(Screen.CreateAccount.route)
+                        navigationState.navigateToCreateAccountScreen(it)
                     },
                     phoneNumber = phoneNumber
                 )
             },
-            createAccountScreenContent = {
+            createAccountScreenContent = { phoneNumber ->
                 CreateAccountScreen(
                     launchEventScreen = {
                         navigationState.navHostController.popBackStack(
@@ -229,7 +222,8 @@ fun MainScreen() {
                             true
                         )
                         navigationState.navHostController.navigate(Screen.Events.route)
-                    }
+                    },
+                    phoneNumber = phoneNumber
                 )
             }
         )

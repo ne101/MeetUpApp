@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 
 fun NavGraphBuilder.eventScreenNavGraph(
     eventsScreenContent: @Composable () -> Unit,
-    detailEventFromEventScreenContent: @Composable () -> Unit
+    detailEventFromEventScreenContent: @Composable (Int) -> Unit
 ) {
     navigation(
         startDestination = Screen.Events.route,
@@ -18,7 +18,8 @@ fun NavGraphBuilder.eventScreenNavGraph(
         }
 
         composable(Screen.DetailEventFromEventScreen.route) {
-            detailEventFromEventScreenContent()
+            val eventId = it.arguments?.getString(Screen.DetailEventFromEventScreen.KEY_ID) ?: ""
+            detailEventFromEventScreenContent(eventId.toInt())
         }
     }
 }

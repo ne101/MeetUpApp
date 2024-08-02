@@ -6,6 +6,5 @@ sealed class AllEventsScreenState {
 
     data object Initial : AllEventsScreenState()
     data class AllEventList(val allEventList: List<Event>) : AllEventsScreenState()
-
 }
 

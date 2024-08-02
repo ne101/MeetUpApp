@@ -26,7 +26,7 @@ import com.example.wb_homework.R
 fun EventCard(
     modifier: Modifier = Modifier,
     event: Event,
-    onEventCardClickListener: () -> Unit
+    onEventCardClickListener: (Event) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -36,7 +36,7 @@ fun EventCard(
             containerColor = Color.White, disabledContainerColor = Color.White
         )
     ) {
-        Column(modifier = Modifier.clickable { onEventCardClickListener() }) {
+        Column(modifier = Modifier.clickable { onEventCardClickListener(event) }) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 AvatarForCard(event.avatar)
                 Spacer(modifier = Modifier.width(12.dp))
@@ -50,7 +50,7 @@ fun EventCard(
                     MetaData1(
                         text = LocalContext.current.getString(
                             R.string.date_and_city,
-                            event.data,
+                            event.date,
                             event.city
                         ),
                         color = Color(0xFFA4A4A4)
