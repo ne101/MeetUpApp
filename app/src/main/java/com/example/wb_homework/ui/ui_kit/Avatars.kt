@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.wb_homework.R
 
@@ -31,18 +32,13 @@ fun AvatarBase(image: Int = R.drawable.avatar) {
 }
 
 @Composable
-fun AvatarForCard(image: String) {
-    Box(
-        modifier = Modifier.size(56.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = rememberImagePainter(data = image),
-            modifier = Modifier
-                .size(48.dp)
-                .clip(RoundedCornerShape(16.dp)),
-            contentDescription = "",
-        )
-    }
-
+fun AvatarForCard(image: String, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = image,
+        modifier = modifier
+            .size(47.dp)
+            .clip(RoundedCornerShape(76.dp)),
+        contentDescription = "",
+    )
 }
+

@@ -28,7 +28,7 @@ fun MyChips() {
 @Composable
 fun MyChipRow(event: Event) {
     Row(modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)) {
-        for (chip in event.chips) {
+        for (chip in event.tags) {
             ChipView(text = chip)
             Spacer(modifier = Modifier.width(4.dp))
         }

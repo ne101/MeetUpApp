@@ -33,10 +33,10 @@ import com.example.wb_homework.ui.ui_kit.ImageIcon
 
 @Composable
 fun CustomPhoneField(
-    onComplete: (Boolean) -> Unit,
+    inputPhoneNumber: String,
     phoneNumber: (String) -> Unit
 ) {
-    var currentPhoneNumber by remember { mutableStateOf("") }
+    var currentPhoneNumber by remember { mutableStateOf(inputPhoneNumber) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val mask = "000 000-00-00"
     val maskNumber = '0'
@@ -64,10 +64,7 @@ fun CustomPhoneField(
                 )
                 if (currentPhoneNumber.length == PHONE_LENGTH && currentPhoneNumber.isDigitsOnly()) {
                     keyboardController?.hide()
-                    onComplete(true)
                     phoneNumber(currentPhoneNumber)
-                } else {
-                    onComplete(false)
                 }
             },
             singleLine = true,
@@ -99,4 +96,5 @@ fun CustomPhoneField(
         )
     }
 }
+
 const val PHONE_LENGTH = 10

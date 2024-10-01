@@ -47,7 +47,7 @@ fun CommunityCard(
                     MetaData1(
                         text = stringResource(
                             id = R.string.count_subscribers,
-                            community.countSubscribers.toString()
+                            community.personList.size.toString()
                         ),
                         color = Color(0xFFADB5BD)
                     )

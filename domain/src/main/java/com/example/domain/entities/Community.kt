@@ -1,22 +1,19 @@
 package com.example.domain.entities
 
-import kotlin.random.Random
-
 data class Community(
     val communityName: String = "Designa",
-    val countSubscribers: Int = 10000,
     val avatarCommunity: String = IMAGE_URL,
+    val tags: List<String> = listOf(),
     val id: Int = 0,
-    val events: List<Event> = generationEvent,
-    val description: String = "Информация о сообществе"
-
+    val personList: List<Person> = mutableListOf<Person>().apply {
+        repeat(200) {
+            add(Person(id = it))
+        }
+    },
+    val description: String = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями."
 ) {
     companion object {
-        val generationEvent = mutableListOf<Event>().apply {
-            repeat(40) {
-                add(Event(id = it, finished = Random.nextBoolean()))
-            }
-        }
-        const val IMAGE_URL = "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/square-logo-social-media-template-design-3c67549ba9a7c8c66b762920347c7939_screen.jpg?ts=1589204086"
+        const val IMAGE_URL =
+            "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/square-logo-social-media-template-design-3c67549ba9a7c8c66b762920347c7939_screen.jpg?ts=1589204086"
     }
 }

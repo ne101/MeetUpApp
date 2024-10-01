@@ -1,5 +1,7 @@
 package com.example.wb_homework.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -7,62 +9,52 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    eventsScreenContent: @Composable () -> Unit,
-    detailEventFromCommunityScreenContent: @Composable (Int) -> Unit,
-    detailEventFromEventScreenContent: @Composable (Int) -> Unit,
-    communityScreenContent: @Composable () -> Unit,
-    detailCommunityScreenContent: @Composable (Int) -> Unit,
-    moreScreenContent: @Composable () -> Unit,
-    myEventsScreenContent: @Composable () -> Unit,
-    profileScreenContent: @Composable () -> Unit,
-    detailEventFromMoreScreenContent: @Composable (Int) -> Unit,
-    themeScreenContent: @Composable () -> Unit,
-    authPhoneScreenContent: @Composable () -> Unit,
-    authCodeScreenContent: @Composable (String) -> Unit,
-    createAccountScreenContent: @Composable (String) -> Unit,
+    mainPageScreenContent: @Composable () -> Unit,
+    eventScreenContent: @Composable (Int, Int) -> Unit,
+    communityScreenContent: @Composable (Int) -> Unit,
+    onPersonsScreenContent: @Composable (Int, String) -> Unit,
+    onInterestsScreenContent: @Composable () -> Unit,
+    onProfileScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.AuthPhone.route,
+        startDestination = Screen.Interests,
         enterTransition = {
             fadeIn(animationSpec = tween(400))
         },
         exitTransition = {
-            fadeOut(animationSpec = tween(200))
+            fadeOut(animationSpec = tween(400))
         },
-        ) {
-        composable(Screen.AuthPhone.route) {
-            authPhoneScreenContent()
-        }
-        composable(Screen.AuthCode.route) {
-            val phoneNumber = it.arguments?.getString(Screen.AuthCode.KEY_PHONE_NUMBER) ?: ""
-            authCodeScreenContent(phoneNumber)
-        }
-        composable(Screen.CreateAccount.route) {
-            val phoneNumber = it.arguments?.getString(Screen.CreateAccount.KEY_PHONE_NUMBER) ?: ""
-            createAccountScreenContent(phoneNumber)
-        }
-        eventScreenNavGraph(
-            eventsScreenContent = eventsScreenContent,
-            detailEventFromEventScreenContent = detailEventFromEventScreenContent
-        )
+        popExitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None }
 
-        communityScreenNavGraph(
-            communityScreenContent = communityScreenContent,
-            detailCommunityScreenContent = detailCommunityScreenContent,
-            detailEventFromCommunityScreenContent = detailEventFromCommunityScreenContent
-        )
+    ) {
+        composable<Screen.MainPage> {
+            mainPageScreenContent()
+        }
+        composable<Screen.Event> {
+            val args = it.toRoute<Screen.Event>()
+            eventScreenContent(args.eventId, args.communityId)
+        }
+        composable<Screen.Community> {
+            val args = it.toRoute<Screen.Community>()
+            communityScreenContent(args.communityId)
+        }
 
-        moreScreenNavGraph(
-            moreScreenContent = moreScreenContent,
-            profileEventScreenContent = profileScreenContent,
-            myEventsScreenContent = myEventsScreenContent,
-            detailEventFromMoreScreenContent = detailEventFromMoreScreenContent,
-            themeScreenContent = themeScreenContent
-        )
+        composable<Screen.Persons> {
+            val args = it.toRoute<Screen.Persons>()
+            onPersonsScreenContent(args.eventId, args.title)
+        }
+        composable<Screen.Interests> {
+            onInterestsScreenContent()
+        }
+        composable<Screen.Profile> {
+            onProfileScreenContent()
+        }
     }
 }

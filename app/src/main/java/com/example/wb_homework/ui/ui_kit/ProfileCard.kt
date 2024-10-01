@@ -19,9 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.example.domain.entities.Profile
 import com.example.wb_homework.R
-import com.example.wb_homework.ui.theme.PhoneColor
+import com.example.wb_homework.ui.theme.InputTextColor
 
 @Composable
 fun ProfileCard(
@@ -43,9 +44,9 @@ fun ProfileCard(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Log.d("ProfileCard", "${ profile.avatar }")
+            Log.d("ProfileCard", profile.avatar)
             AvatarProfile(
-                avatar = profile.avatar,
+                avatar = profile.avatar.toUri(),
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
                     .size(50.dp)
@@ -53,7 +54,7 @@ fun ProfileCard(
             Spacer(modifier = Modifier.width(20.dp))
             Column(modifier = Modifier.weight(1f)) {
                 BodyText1(text = "${profile.name} ${profile.secondName}")
-                MetaData1(text = profile.phone, color = PhoneColor)
+                MetaData1(text = profile.phone, color = InputTextColor)
             }
             ImageIcon(iconResId = R.drawable.details_icon, modifier = Modifier.size(24.dp))
 

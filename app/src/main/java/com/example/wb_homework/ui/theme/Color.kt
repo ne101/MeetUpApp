@@ -16,7 +16,35 @@ val PurpleDark = Color(0xFF660EC8)
 val Teal200 = Color(0xFF03DAC5)
 val NeutralLine = Color(0xFFEDEDED)
 val GrayDefault = Color(0xFFA4A4A4)
-val TextColor = Color(0xFF29183B)
-val PhoneColor = Color(0xFFADB5BD)
+val TextColor = Color.Black
+val InputTextColor = Color(0xFFADB5BD)
+val colorDate = Color(0xFF76778E)
+val BackGroundWhite = Color(0xFFF6F6FA)
+val ShadowColor = Color(0x33000000)
+val textColorGreen = Color(0xFF00BF59)
+val redColor = Color(0xFFFF0000)
+val resetAvatarButtonColor = Color(0X4D9A10F0)
+val LinearGradientPurpleBackGround = listOf(
+    Color(0xFFED3CCA),
+    Color(0xFFDF34D2),
+    Color(0xFFD02BD9),
+    Color(0xFFBF22E1),
+    Color(0xFFAE1AE8),
+    Color(0xFF9A10F0),
+    Color(0xFF8306F7),
+    Color(0xFF6600FF),
+)
+val LinearGradientWhiteBackGround = listOf(
+    Color(0xFFFEF1FB),
+    Color(0xFFFDF1FC),
+    Color(0xFFFCF0FC),
+    Color(0xFFFBF0FD),
+    Color(0xFFF9EFFD),
+    Color(0xFFF8EEFE),
+    Color(0xFFF6EEFE),
+    Color(0xFFF4EDFF),
+)
+val DisabledText = Color(0xFF9797AF)
+val PurpleWB = Color(0xFF9A10F0)
 val OffWhite = Color(0xFFF7F7FC)
 val tabColor = Color(0xFF666666)

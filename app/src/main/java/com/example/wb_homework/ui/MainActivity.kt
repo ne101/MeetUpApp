@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     if (splashScreenVisible.value) {
                         MySplashScreen()
                     } else {
-                        MainScreen()
+                     MainScreen()
                     }
                 }
             }

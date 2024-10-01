@@ -1,5 +1,6 @@
 package com.example.wb_homework.ui.ui_kit
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -15,10 +16,10 @@ import com.example.wb_homework.R
 @Composable
 fun AvatarProfileRegistration(
     modifier: Modifier = Modifier,
-    avatar: Any?,
+    avatar: Uri,
 ) {
     Box(contentAlignment = Alignment.BottomEnd) {
-        if (avatar != null && avatar != "null") {
+        if (avatar != Uri.EMPTY) {
             AsyncImage(
                 model = avatar,
                 contentDescription = "",
@@ -42,10 +43,10 @@ fun AvatarProfileRegistration(
 @Composable
 fun AvatarProfile(
     modifier: Modifier = Modifier,
-    avatar: Any?,
+    avatar: Uri,
 ) {
     Box(contentAlignment = Alignment.BottomEnd) {
-        if (avatar != null && avatar != "null") {
+        if (avatar != Uri.EMPTY) {
             AsyncImage(
                 model = avatar,
                 contentDescription = "",

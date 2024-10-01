@@ -1,17 +1,29 @@
 package com.example.data.mapper
 
-import com.example.data.local_data_base.EventTable
-import com.example.data.local_data_base.ProfileTable
+import com.example.data.local_data_base.table.CommunityTable
+import com.example.data.local_data_base.table.EventTable
+import com.example.data.local_data_base.table.ProfileTable
+import com.example.data.local_data_base.table.TagsTable
+import com.example.domain.entities.Community
 import com.example.domain.entities.Event
 import com.example.domain.entities.Profile
+import com.example.domain.entities.Tags
 
 class Mapper {
     fun mapProfileToProfileTable(profile: Profile): ProfileTable = ProfileTable(
         name = profile.name,
         secondName = profile.secondName,
         phone = profile.phone,
-        avatar = profile.avatar.toString(),
-        events = profile.events.map { mapEventToEventTable(it) }
+        avatar = profile.avatar,
+        events = profile.events.map { mapEventToEventTable(it) },
+        communities = profile.communities.map { mapCommunityToCommunityTable(it) },
+        tags = tagsToTagsTable(profile.tags),
+        description = profile.description,
+        habrName = profile.habrName,
+        telegramName = profile.telegramName,
+        showEvents = profile.showEvents,
+        showCommunities = profile.showCommunities,
+        city = profile.city
     )
 
     fun mapEventToEventTable(event: Event): EventTable = EventTable(
@@ -21,10 +33,9 @@ class Mapper {
         city = event.city,
         street = event.street,
         avatar = event.avatar,
-        chips = event.chips,
+        tags = event.tags,
         finished = event.finished,
-        imageList = event.imageList,
-        mapUrl = event.mapUrl
+        communityId = event.communityId
     )
 
     fun mapProfileTableToProfile(profileTable: ProfileTable): Profile = Profile(
@@ -32,7 +43,15 @@ class Mapper {
         secondName = profileTable.secondName,
         phone = profileTable.phone,
         avatar = profileTable.avatar,
-        events = profileTable.events.map { mapEventTableToEvent(it) }
+        events = profileTable.events.map { mapEventTableToEvent(it) },
+        communities = profileTable.communities.map { mapCommunityTableToCommunity(it) },
+        tags = tagsTableToTags(profileTable.tags) ?: Tags(emptyList()),
+        description = profileTable.description,
+        habrName = profileTable.habrName,
+        telegramName = profileTable.telegramName,
+        showEvents = profileTable.showEvents,
+        showCommunities = profileTable.showCommunities,
+        city = profileTable.city
     )
 
     fun mapEventTableToEvent(eventTable: EventTable): Event = Event(
@@ -42,9 +61,33 @@ class Mapper {
         city = eventTable.city,
         street = eventTable.street,
         avatar = eventTable.avatar,
-        chips = eventTable.chips,
+        tags = eventTable.tags,
         finished = eventTable.finished,
-        imageList = eventTable.imageList,
-        mapUrl = eventTable.mapUrl
+        communityId = eventTable.communityId
     )
+
+    fun mapCommunityToCommunityTable(community: Community) = CommunityTable(
+        id = community.id,
+        communityName = community.communityName,
+        avatarCommunity = community.avatarCommunity,
+        tags = community.tags
+
+    )
+
+    fun mapCommunityTableToCommunity(communityTable: CommunityTable) = Community(
+        id = communityTable.id,
+        communityName = communityTable.communityName,
+        avatarCommunity = communityTable.avatarCommunity,
+        tags = communityTable.tags
+    )
+
+    fun tagsToTagsTable(tags: Tags) = TagsTable(
+        tags = tags.tags
+    )
+
+    fun tagsTableToTags(tagsTable: TagsTable?) = tagsTable?.let {
+        Tags(
+            tags = it.tags
+        )
+    }
 }

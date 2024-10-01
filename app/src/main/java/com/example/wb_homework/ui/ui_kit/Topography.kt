@@ -4,10 +4,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.wb_homework.ui.theme.TextColor
 
@@ -26,7 +29,9 @@ fun Heading1(
         fontWeight = FontWeight.Bold,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -42,10 +47,12 @@ fun Heading2(
         text = text,
         fontSize = 24.sp,
         color = color,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         textAlign = textAlign,
         maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -64,7 +71,9 @@ fun Subheading1(
         fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -83,7 +92,10 @@ fun Subheading2(
         fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em,
+
     )
 }
 
@@ -103,7 +115,9 @@ fun BodyText1(
         fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -119,10 +133,13 @@ fun BodyText2(
         text = text,
         fontSize = 14.sp,
         color = color,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         modifier = modifier,
         textAlign = textAlign,
         maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em,
+        lineHeight = 17.sp
     )
 }
 
@@ -141,7 +158,9 @@ fun MetaData1(
         fontWeight = FontWeight.Normal,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -160,7 +179,9 @@ fun MetaData2(
         fontWeight = FontWeight.Normal,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }
 
@@ -179,6 +200,8 @@ fun MetaData3(
         fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        letterSpacing = 0.001.em
     )
 }

@@ -13,21 +13,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.wb_homework.R
 import com.example.wb_homework.ui.theme.GrayDefault
 import com.example.wb_homework.ui.theme.OffWhite
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView() {
     val state = remember {
@@ -64,20 +61,21 @@ fun SearchView() {
         },
         singleLine = true,
         shape = RoundedCornerShape(4.dp),
-        placeholder = { BodyText1(text = "Поиск", color = GrayDefault) },
-        colors = TextFieldDefaults.textFieldColors(
+        placeholder = { BodyText1(text = stringResource(R.string.search), color = GrayDefault) },
+        colors = TextFieldDefaults.colors(
             focusedTextColor = GrayDefault,
+            focusedContainerColor = OffWhite,
+            unfocusedContainerColor = OffWhite,
+            disabledContainerColor = OffWhite,
             cursorColor = GrayDefault,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
             focusedLeadingIconColor = GrayDefault,
             unfocusedLeadingIconColor = GrayDefault,
-            containerColor = OffWhite,
             disabledLeadingIconColor = GrayDefault,
             focusedTrailingIconColor = GrayDefault,
             unfocusedTrailingIconColor = GrayDefault,
-
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
         )
     )
 }
